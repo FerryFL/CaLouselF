@@ -1,4 +1,4 @@
-package routes;
+package view_controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

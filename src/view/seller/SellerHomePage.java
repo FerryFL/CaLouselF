@@ -7,7 +7,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Item;
-import routes.ViewController;
+import view_controller.*;
 
 public class SellerHomePage {
 
@@ -18,8 +18,10 @@ public class SellerHomePage {
     public SellerHomePage(Stage stage, ItemController controller) {
         this.stage = stage;
         this.controller = controller;
-        this.tableView = createTableView();
+        controller.viewItems();  // Fetch items from the database and update ObservableList
+        this.tableView = createTableView();  // Now create the TableView
     }
+
 
     public Scene createHomePageScene() {
         BorderPane root = new BorderPane();
@@ -33,6 +35,12 @@ public class SellerHomePage {
         root.setBottom(buttonContainer);
 
         return new Scene(root, 1000, 600);
+    }
+    
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.show();
     }
 
     @SuppressWarnings("unchecked")
@@ -70,11 +78,20 @@ public class SellerHomePage {
             Button updateBtn = new Button("Update");
 
             {
-                deleteBtn.setOnAction(e -> {
-                    Item item = getTableView().getItems().get(getIndex());
-                    controller.deleteItem(item.getItemId());
-                    tableView.setItems(controller.getItems());
-                });
+            	deleteBtn.setOnAction(e -> {
+            	    Item item = getTableView().getItems().get(getIndex());
+            	    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            	    alert.setTitle("Delete Confirmation");
+            	    alert.setContentText("Are you sure you want to delete this item?");
+            	    alert.showAndWait().ifPresent(response -> {
+            	        if (response == ButtonType.OK) {
+            	            controller.deleteItem(item.getItemId());
+            	            tableView.refresh();  
+            	            showAlert("Item deleted successfully!");
+            	        }
+            	    });
+            	});
+
 
                 updateBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());

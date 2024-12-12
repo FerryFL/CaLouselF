@@ -5,7 +5,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Item;
-import routes.ViewController;
+import view_controller.*;
 
 public class EditItemPage {
 
@@ -39,9 +39,9 @@ public class EditItemPage {
             String status = statusTf.getText();
             String wishlist = wishlistTf.getText();
             String offerStatus = offerStatusTf.getText();
-
+            
             if (!name.isEmpty() && !size.isEmpty() && !price.isEmpty() && !category.isEmpty()) {
-                controller.updateItem(item.getItemId(), name, size, price, category, status, wishlist, offerStatus);
+                controller.editItem(item.getItemId(), name, size, price, category);
                 showAlert("Item updated successfully!");
                 ViewController.getInstance(owner, controller).navigateToSellerHomePage();
             } else {
