@@ -23,8 +23,35 @@ public class ItemController {
         return items;
     }
     
+    private String generateItemId() {
+		
+		String lastItemId = null;
+	    String newItemId = "IT001";
+	    
+	    String query = "SELECT Item_id FROM items ORDER BY Item_id DESC LIMIT 1";
+	    try {
+	        ResultSet rs = con.execQuery(query);
+	        if (rs.next()) {
+	            lastItemId = rs.getString("Item_id");
+	        }
+
+	        if (lastItemId != null) {
+	            String numericPart = lastItemId.substring(2);
+	            int newIdNumber = Integer.parseInt(numericPart) + 1;
+	            newItemId = "IT" + String.format("%03d", newIdNumber);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return newItemId;
+	    
+	}
+    
+    
     public void addItemToDatabase(String name, String size, String price, String category) {
-        String itemId = "ITEM-" + String.valueOf(itemIdCounter++);
+        String itemId = generateItemId();
         String defaultStatus = "Pending";
         String defaultWishlist = "0";
         String defaultOfferStatus = "No Offer";
