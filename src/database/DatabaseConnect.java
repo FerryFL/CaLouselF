@@ -6,7 +6,7 @@ public class DatabaseConnect {
 
     public final String USERNAME = "root";
     public final String PASSWORD = ""; 
-    public final String DATABASE = "calouself_final"; 
+    public final String DATABASE = "calouself"; 
     public final String HOST = "localhost:3306"; 
     public final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST, DATABASE);
 
@@ -14,7 +14,7 @@ public class DatabaseConnect {
     public Statement st;
     private static DatabaseConnect databaseConnect;
 
-    private ResultSet rs;
+    public ResultSet rs;
     private ResultSetMetaData rsm;
 
     public static DatabaseConnect getInstance() {
