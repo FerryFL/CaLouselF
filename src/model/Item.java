@@ -13,6 +13,7 @@ public class Item {
 
 	public Item(String itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
 			String itemStatus, String itemWishlist, String itemOfferStatus) {
+    
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
@@ -88,5 +89,4 @@ public class Item {
 		this.itemOfferStatus = itemOfferStatus;
 	}
 
-   
 }

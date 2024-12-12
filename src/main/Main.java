@@ -5,7 +5,11 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import routes.ViewController;
 
+import view_controller.LoginViewController;
+import view_controller.RegisterViewController;
+
 public class Main extends Application {
+
     
     private final ItemController controller = new ItemController();
     
@@ -15,11 +19,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        ViewController viewController = ViewController.getInstance(primaryStage, controller);
-        
-        viewController.navigateToSellerHomePage(); 
+         LoginViewController loginVC = new LoginViewController(primaryStage);
+        RegisterViewController registerVC = new RegisterViewController(primaryStage);
 
-        primaryStage.setTitle("CalouselF");
-        primaryStage.show();
+        loginVC.setRegisterViewController(registerVC);
+        registerVC.setLoginViewController(loginVC);
+
+        loginVC.navigateToLogin();
     }
 }
+
