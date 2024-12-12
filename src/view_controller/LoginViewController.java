@@ -1,6 +1,6 @@
 package view_controller;
 
-import controller.LoginController;
+import controller.UserController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.LoginView;
@@ -8,13 +8,13 @@ import view.LoginView;
 public class LoginViewController {
 
     private Stage primaryStage;
-    private LoginController loginController;
+    private UserController userController;
     private RegisterViewController registerVC; 
 
     // Constructor without registerVC, using setter instead
     public LoginViewController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.loginController = new LoginController();
+        this.userController = new UserController();
     }
 
     // Setter method to inject RegisterViewController
@@ -30,7 +30,7 @@ public class LoginViewController {
             String username = loginView.getUsernameField().getText();
             String password = loginView.getPasswordField().getText();
 
-            String role = loginController.validateLogin(username, password); // Get the role from DB
+            String role = userController.validateLogin(username, password); // Get the role from DB
 
             if (role != null) {
                 System.out.println("Success");

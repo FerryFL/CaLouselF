@@ -1,6 +1,6 @@
 package view_controller;
 
-import controller.RegisterController;
+import controller.UserController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.RegisterView;
@@ -8,12 +8,12 @@ import view.RegisterView;
 public class RegisterViewController {
 
     private Stage primaryStage;
-    private RegisterController registerController;
+    private UserController registerController;
     private LoginViewController loginVC; 
     
     public RegisterViewController(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.registerController = new RegisterController();
+        this.registerController = new UserController();
     }
 
     public void setLoginViewController(LoginViewController loginVC) {

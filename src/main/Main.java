@@ -19,7 +19,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-         LoginViewController loginVC = new LoginViewController(primaryStage);
+        LoginViewController loginVC = new LoginViewController(primaryStage);
         RegisterViewController registerVC = new RegisterViewController(primaryStage);
 
         loginVC.setRegisterViewController(registerVC);

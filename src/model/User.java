@@ -1,60 +1,58 @@
 package model;
 
 public class User {
-    private String userId;
-    private String username;
-    private String password;
-    private String phoneNumber;
-    private String address;
-    private String role;
+    private String User_id;
+    private String Username;
+    private String Password;
+    private String Phone_Number;
+    private String Address;
+    private String Role;
     
-    public User(String userId, String username, String password, String phoneNumber, String address, String role) {
+	public User(String user_id, String username, String password, String phone_Number, String address, String role) {
 		super();
-		this.userId = userId;
-		this.username = username;
-		this.password = password;
-		this.phoneNumber = phoneNumber;
-		this.address = address;
-		this.role = role;
-	}
-    
-    
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
+		User_id = user_id;
+		Username = username;
+		Password = password;
+		Phone_Number = phone_Number;
+		Address = address;
+		Role = role;
 	}
 	
+	public String getUser_id() {
+		return User_id;
+	}
+	public void setUser_id(String user_id) {
+		User_id = user_id;
+	}
+	public String getUsername() {
+		return Username;
+	}
+	public void setUsername(String username) {
+		Username = username;
+	}
+	public String getPassword() {
+		return Password;
+	}
+	public void setPassword(String password) {
+		Password = password;
+	}
+	public String getPhone_Number() {
+		return Phone_Number;
+	}
+	public void setPhone_Number(String phone_Number) {
+		Phone_Number = phone_Number;
+	}
+	public String getAddress() {
+		return Address;
+	}
+	public void setAddress(String address) {
+		Address = address;
+	}
+	public String getRole() {
+		return Role;
+	}
+	public void setRole(String role) {
+		Role = role;
+	}
     
 }
