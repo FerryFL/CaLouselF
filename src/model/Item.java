@@ -1,12 +1,19 @@
 package model;
 
 public class Item {
+	
+	private String itemId;
+    private String itemName;
+    private String itemSize;
+    private String itemPrice;
+    private String itemCategory;
+    private String itemStatus = "Pending"; 
+    private String itemWishlist = "0";     
+    private String itemOfferStatus = "No Offer";
 
-	private String itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus;
-
-	public Item(String itemId, String itemName, String itemSize,
-			String itemPrice, String itemCategory, String itemStatus, 
-			String itemWishlist, String itemOfferStatus) {
+	public Item(String itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
+			String itemStatus, String itemWishlist, String itemOfferStatus) {
+    
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
@@ -81,5 +88,5 @@ public class Item {
 	public void setItemOfferStatus(String itemOfferStatus) {
 		this.itemOfferStatus = itemOfferStatus;
 	}
-	
+
 }
