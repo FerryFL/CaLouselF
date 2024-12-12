@@ -8,10 +8,10 @@ module CaLouselF {
 	
 	opens main;
 	opens view;
-	opens database;
 	opens controller;
-	opens view_controller;
 	opens model;
+	opens view_controller;
+	opens database;
 	
 	requires java.sql;
 	requires javafx.graphics;

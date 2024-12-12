@@ -4,7 +4,7 @@ import controller.ItemController;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import routes.ViewController;
+import view_controller.*;
 
 public class UploadItemPage {
 
@@ -39,13 +39,14 @@ public class UploadItemPage {
             String category = categoryTf.getText();
 
             if (!name.isEmpty() && !size.isEmpty() && !price.isEmpty() && !category.isEmpty()) {
-                controller.addItem(name, size, price, category);
-                showAlert("Item added successfully!");
+                controller.addItemToDatabase(name, size, price, category); // Insert into DB
+                showAlert("Item added successfully to the database!");
                 clearInputs(nameTf, sizeTf, priceTf, categoryTf);
             } else {
                 showAlert("All fields are required.");
             }
         });
+
 
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> {
