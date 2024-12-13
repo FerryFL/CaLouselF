@@ -3,7 +3,6 @@ package view;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
-import javafx.geometry.Pos;
 
 public class RegisterView {
 

@@ -1,11 +1,8 @@
 package controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import database.DatabaseConnect;
@@ -16,7 +13,7 @@ import model.Item;
 public class ItemController {
 	
     private ObservableList<Item> items = FXCollections.observableArrayList();
-    private int itemIdCounter = 1;
+//    private int itemIdCounter = 1;
     private static DatabaseConnect con = DatabaseConnect.getInstance();
 
     public ObservableList<Item> getItems() {
@@ -119,5 +116,16 @@ public class ItemController {
     	String query = String.format("DELETE FROM Items WHERE Item_id = '%s'", id);
 		con.execUpdate(query);
 		items.removeIf(item -> item.getItemId().equals(id));
+    }
+    
+    public void addItemToWishlist(Item item) {
+        String query = "UPDATE Items SET Item_wishlist = '1' WHERE Item_id = ?";
+        
+        try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(query)) {
+            stmt.setString(1, item.getItemId());  // Set the Item ID
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

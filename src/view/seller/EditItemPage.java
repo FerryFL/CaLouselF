@@ -36,9 +36,9 @@ public class EditItemPage {
             String size = sizeTf.getText();
             String price = priceTf.getText();
             String category = categoryTf.getText();
-            String status = statusTf.getText();
-            String wishlist = wishlistTf.getText();
-            String offerStatus = offerStatusTf.getText();
+//            String status = statusTf.getText();
+//            String wishlist = wishlistTf.getText();
+//            String offerStatus = offerStatusTf.getText();
             
             if (!name.isEmpty() && !size.isEmpty() && !price.isEmpty() && !category.isEmpty()) {
                 controller.editItem(item.getItemId(), name, size, price, category);

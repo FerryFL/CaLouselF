@@ -7,17 +7,21 @@ import view.RegisterView;
 
 public class RegisterViewController {
 
+    private static RegisterViewController instance;
     private Stage primaryStage;
     private UserController registerController;
-    private LoginViewController loginVC; 
+    private LoginViewController loginVC;
+
+    public static RegisterViewController getInstance(Stage stage) {
+        if (instance == null && stage != null) {
+            instance = new RegisterViewController(stage);
+        }
+        return instance;
+    }
     
-    public RegisterViewController(Stage primaryStage) {
+    private RegisterViewController(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.registerController = new UserController();
-    }
-
-    public void setLoginViewController(LoginViewController loginVC) {
-        this.loginVC = loginVC;
     }
 
     public void navigateToRegister() {
@@ -35,14 +39,12 @@ public class RegisterViewController {
 
             if (success) {
                 System.out.println("Registration successful!");
-                navigateToLogin();
+                loginVC.getInstance(primaryStage).navigateToLogin();
             }
         });
 
         registerView.getLoginButton().setOnAction(e -> {
-            if (loginVC != null) {
-                loginVC.navigateToLogin();
-            }
+        	loginVC.getInstance(primaryStage).navigateToLogin();
         });
 
         primaryStage.setScene(scene);
@@ -51,6 +53,8 @@ public class RegisterViewController {
     }
 
     public void navigateToLogin() {
-    	loginVC.navigateToLogin();
+        if (loginVC != null) {
+            loginVC.navigateToLogin();
+        }
     }
 }

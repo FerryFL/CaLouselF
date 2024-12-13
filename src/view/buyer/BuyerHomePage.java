@@ -1,6 +1,7 @@
-package view.seller;
+package view.buyer;
 
 import controller.ItemController;
+import controller.WishlistController;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -9,32 +10,25 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Item;
 import view_controller.*;
 
-public class SellerHomePage {
+public class BuyerHomePage {	
 
     private Stage stage;
     private ItemController controller;
     private TableView<Item> tableView;
+    private WishlistController wishlistController;
 
-    public SellerHomePage(Stage stage, ItemController controller) {
+    public BuyerHomePage(Stage stage, ItemController controller) {
         this.stage = stage;
         this.controller = controller;
-        controller.viewItems(); 
-        this.tableView = createTableView(); 
+        wishlistController = new WishlistController();
+        controller.viewItems();  // Fetch items from the database and update ObservableList
+        this.tableView = createTableView();  // Now create the TableView
     }
-
 
     public Scene createHomePageScene() {
         BorderPane root = new BorderPane();
+        root.setTop(createMenuBar()); // Tambahkan MenuBar
         root.setCenter(tableView);
-        
-        root.setTop(createMenuBar());
-
-        Button addItemButton = new Button("Add Item");
-        addItemButton.setOnAction(e -> ViewController.getInstance(stage, controller).navigateToUploadItemPage());
-
-        HBox buttonContainer = new HBox(10, addItemButton);
-        buttonContainer.setStyle("-fx-padding: 10; -fx-alignment: center;");
-        root.setBottom(buttonContainer);
 
         return new Scene(root, 1000, 600);
     }
@@ -46,7 +40,12 @@ public class SellerHomePage {
 
         MenuItem homeMenuItem = new MenuItem("Home");
         homeMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, controller).navigateToSellerHomePage()
+            BuyerViewController.getInstance(stage, controller).navigateToBuyerHomePage()
+        );
+
+        MenuItem wishlistMenuItem = new MenuItem("Wishlist");
+        wishlistMenuItem.setOnAction(e -> 
+            BuyerViewController.getInstance(stage, controller).navigateToWishlistPage()
         );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
@@ -55,7 +54,7 @@ public class SellerHomePage {
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
@@ -68,7 +67,7 @@ public class SellerHomePage {
     }
 
     @SuppressWarnings("unchecked")
-	private TableView<Item> createTableView() {
+    private TableView<Item> createTableView() {
         TableView<Item> tableView = new TableView<>();
         tableView.setItems(controller.getItems());
 
@@ -98,28 +97,19 @@ public class SellerHomePage {
 
         TableColumn<Item, Void> actionCol = new TableColumn<>("Actions");
         actionCol.setCellFactory(col -> new TableCell<>() {
-            Button deleteBtn = new Button("Delete");
-            Button updateBtn = new Button("Update");
+            Button addWishlistBtn = new Button("Add to Wishlist");
 
             {
-            	deleteBtn.setOnAction(e -> {
-            	    Item item = getTableView().getItems().get(getIndex());
-            	    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            	    alert.setTitle("Delete Confirmation");
-            	    alert.setContentText("Are you sure you want to delete this item?");
-            	    alert.showAndWait().ifPresent(response -> {
-            	        if (response == ButtonType.OK) {
-            	            controller.deleteItem(item.getItemId());
-            	            tableView.refresh();  
-            	            showAlert("Item deleted successfully!");
-            	        }
-            	    });
-            	});
-
-
-                updateBtn.setOnAction(e -> {
+                addWishlistBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
-                    ViewController.getInstance(stage, controller).navigateToEditItemPage(item);
+                    String userId = "US001"; 
+                    boolean success = wishlistController.addWishlist(item.getItemId(), userId);
+
+                    if (success) {	
+                        showAlert("Item added to Wishlist successfully!");
+                    } else {
+                        showAlert("Failed to add item to Wishlist.");
+                    }
                 });
             }
 
@@ -129,8 +119,7 @@ public class SellerHomePage {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox buttons = new HBox(5, updateBtn, deleteBtn);
-                    setGraphic(buttons);
+                    setGraphic(addWishlistBtn);
                 }
             }
         });
@@ -141,4 +130,5 @@ public class SellerHomePage {
 
         return tableView;
     }
+
 }
