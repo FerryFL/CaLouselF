@@ -10,7 +10,7 @@ import view_controller.*;
 public class Main extends Application {
 
     
-//    private final ItemController controller = new ItemController();
+    private final ItemController controller = new ItemController();
     
     public static void main(String[] args) {
         launch(args);
@@ -18,12 +18,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        LoginViewController loginVC = new LoginViewController(primaryStage);
-        loginVC.getInstance(primaryStage).navigateToLogin();
+//        LoginViewController loginVC = new LoginViewController(primaryStage);
+//        loginVC.getInstance(primaryStage).navigateToLogin();
     	
-//    	ViewController viewController = ViewController.getInstance(primaryStage, controller);
-//        
-//      viewController.navigateToSellerHomePage(); 
+    	ViewController viewController = ViewController.getInstance(primaryStage, controller);
+    	viewController.navigateToSellerHomePage(); 
 
         primaryStage.setTitle("CalouselF");
         primaryStage.show();

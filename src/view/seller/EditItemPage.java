@@ -22,13 +22,24 @@ public class EditItemPage {
     }
 
     private VBox createUpdateItemPage() {
+        // Create labels for each field
+        Label nameLabel = new Label("Item Name:");
         TextField nameTf = new TextField(item.getItemName());
+
+        Label sizeLabel = new Label("Item Size:");
         TextField sizeTf = new TextField(item.getItemSize());
+
+        Label priceLabel = new Label("Item Price:");
         TextField priceTf = new TextField(item.getItemPrice());
+
+        Label categoryLabel = new Label("Item Category:");
         TextField categoryTf = new TextField(item.getItemCategory());
-        TextField statusTf = new TextField(item.getItemStatus());
-        TextField wishlistTf = new TextField(item.getItemWishlist());
-        TextField offerStatusTf = new TextField(item.getItemOfferStatus());
+
+//        Label statusLabel = new Label("Item Status:");
+//        TextField statusTf = new TextField(item.getItemStatus());
+//
+//        Label wishlistLabel = new Label("Item Wishlist:");
+//        TextField wishlistTf = new TextField(item.getItemWishlist());
 
         Button updateBtn = new Button("Update Item");
         updateBtn.setOnAction(e -> {
@@ -36,9 +47,6 @@ public class EditItemPage {
             String size = sizeTf.getText();
             String price = priceTf.getText();
             String category = categoryTf.getText();
-//            String status = statusTf.getText();
-//            String wishlist = wishlistTf.getText();
-//            String offerStatus = offerStatusTf.getText();
             
             if (!name.isEmpty() && !size.isEmpty() && !price.isEmpty() && !category.isEmpty()) {
                 controller.editItem(item.getItemId(), name, size, price, category);
@@ -49,13 +57,15 @@ public class EditItemPage {
             }
         });
 
+        // Create the back button
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> {
             ViewController.getInstance(owner, controller).navigateToSellerHomePage();
         });
 
+        // Arrange the fields with labels and buttons in a VBox
         VBox buttonContainer = new VBox(10, updateBtn, backBtn);
-        return new VBox(10, nameTf, sizeTf, priceTf, categoryTf, statusTf, wishlistTf, offerStatusTf, buttonContainer);
+        return new VBox(10, nameLabel, nameTf, sizeLabel, sizeTf, priceLabel, priceTf, categoryLabel, categoryTf, buttonContainer);
     }
 
     public VBox getRoot() {

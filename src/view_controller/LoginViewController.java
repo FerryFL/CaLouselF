@@ -1,6 +1,7 @@
 package view_controller;
 
 import controller.ItemController;
+import controller.OfferController;
 import controller.UserController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -43,7 +44,7 @@ public class LoginViewController {
             	System.out.println("Welcome Admin!");
             }else if (role.equals("Seller")) {
                 System.out.println("Welcome Seller!");
-                SellerVC.getInstance(primaryStage, itemController).navigateToSellerHomePage();
+                SellerVC.navigateToSellerHomePage();
            } else if(role.equals("Buyer")) {
            	System.out.println("Welcome Buyer!");
            	BuyerVC.getInstance(primaryStage, itemController).navigateToBuyerHomePage();
