@@ -1,6 +1,7 @@
 package view.buyer;
 
 import controller.ItemController;
+import controller.TransactionController;
 import controller.WishlistController;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,19 +11,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Item;
 import view_controller.*;
 
-public class BuyerHomePage {	
+public class BuyerHomePage {    
 
     private Stage stage;
     private ItemController controller;
     private TableView<Item> tableView;
     private WishlistController wishlistController;
+    private TransactionController transactionController;
 
     public BuyerHomePage(Stage stage, ItemController controller) {
         this.stage = stage;
         this.controller = controller;
-        wishlistController = new WishlistController();
-        controller.viewItems();
-        this.tableView = createTableView();
+        this.wishlistController = new WishlistController();
+        this.transactionController = new TransactionController();
+        controller.viewItems();  
+        this.tableView = createTableView(); 
     }
 
     public Scene createHomePageScene() {
@@ -32,7 +35,7 @@ public class BuyerHomePage {
 
         return new Scene(root, 1000, 600);
     }
-    
+
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
 
@@ -42,6 +45,12 @@ public class BuyerHomePage {
         homeMenuItem.setOnAction(e -> 
             BuyerViewController.getInstance(stage, controller).navigateToBuyerHomePage()
         );
+        
+        MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
+        makeOfferMenuItem.setOnAction(e -> 
+            ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
+        );
+        
 
         MenuItem wishlistMenuItem = new MenuItem("Wishlist");
         wishlistMenuItem.setOnAction(e -> 
@@ -50,7 +59,7 @@ public class BuyerHomePage {
 
         MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
         viewHistoryMenuItem.setOnAction(e -> 
-        	BuyerViewController.getInstance(stage,controller).navigateToTransactionHistoryPage()
+            BuyerViewController.getInstance(stage, controller).navigateToTransactionHistoryPage()
         );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
@@ -59,13 +68,12 @@ public class BuyerHomePage {
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, makeOfferMenuItem , wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
     }
 
-    
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
@@ -109,7 +117,7 @@ public class BuyerHomePage {
             {
                 addWishlistBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
-                    String userId = "US001"; 
+                    String userId = "US001"; // Example user ID; replace with actual logged-in user ID
                     boolean success = wishlistController.addWishlist(item.getItemId(), userId);
 
                     if (success) {  
@@ -120,8 +128,16 @@ public class BuyerHomePage {
                 });
 
                 buyBtn.setOnAction(e -> {
-                    // Placeholder for buy action, to be filled later
-                    showAlert("Buy functionality is not implemented yet.");
+                    Item item = getTableView().getItems().get(getIndex());
+                    String userId = "US001"; // Example user ID; replace with actual logged-in user ID
+
+                    boolean success = transactionController.addTransaction(userId, item.getItemId());
+
+                    if (success) {
+                        showAlert("Item purchased successfully! Transaction recorded.");
+                    } else {
+                        showAlert("Failed to complete the transaction.");
+                    }
                 });
             }
 
@@ -131,11 +147,10 @@ public class BuyerHomePage {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    setGraphic(new HBox(addWishlistBtn, buyBtn));
+                    setGraphic(new HBox(10, addWishlistBtn, buyBtn));
                 }
             }
         });
-
 
         actionCol.setMinWidth(200);
 

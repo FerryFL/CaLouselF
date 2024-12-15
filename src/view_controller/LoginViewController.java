@@ -5,7 +5,7 @@ import controller.OfferController;
 import controller.UserController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.LoginView;
+import view.guest.LoginView;
 
 public class LoginViewController {
 
@@ -15,7 +15,7 @@ public class LoginViewController {
     private RegisterViewController registerVC;
     private ItemController itemController;
     private BuyerViewController BuyerVC;
-    private ViewController SellerVC;
+    private ViewController VC;
     
     public static LoginViewController getInstance(Stage stage) {
         if (instance == null && stage != null) {
@@ -41,16 +41,17 @@ public class LoginViewController {
             String role = userController.validateLogin(username, password); // Get the role from DB
 
             if(username.equals("admin") && password.equals("admin")){
-            	System.out.println("Welcome Admin!");	
+            	System.out.println("Welcome Admin!");
+            	VC.getInstance(primaryStage, itemController).navigateToAdminHomePage();
             }else if (role.equals("Seller")) {
-            	System.out.println("Welcome Seller!");
-               	SellerVC.getInstance(primaryStage, itemController).navigateToSellerHomePage();
-            } else if(role.equals("Buyer")) {
-            	System.out.println("Welcome Buyer!");
-            	BuyerVC.getInstance(primaryStage, itemController).navigateToBuyerHomePage();
-            }else {
-            	System.out.println("Invalid Username/Password");
-            }
+                System.out.println("Welcome Seller!");
+                VC.getInstance(primaryStage, itemController).navigateToSellerHomePage();
+           } else if(role.equals("Buyer")) {
+	           	System.out.println("Welcome Buyer!");
+	           	BuyerVC.getInstance(primaryStage, itemController).navigateToBuyerHomePage();
+           }else {
+               System.out.println("Invalid Username/Password");
+           }
             
             
         });

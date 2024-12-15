@@ -13,9 +13,8 @@ import model.Item;
 public class ItemController {
 	
     private ObservableList<Item> items = FXCollections.observableArrayList();
-//    private int itemIdCounter = 1;
     private static DatabaseConnect con = DatabaseConnect.getInstance();
-
+    
     public ObservableList<Item> getItems() {
         return items;
     }
@@ -71,7 +70,7 @@ public class ItemController {
     }
 
     public void viewItems() {
-        String query = "SELECT * FROM Items WHERE Item_status LIKE 'Pending'"; 
+        String query = "SELECT * FROM Items WHERE Item_status LIKE 'Approved'"; 
         ArrayList<Item> itemsList = new ArrayList<>();
         
         con.rs = con.execQuery(query);  
@@ -90,15 +89,61 @@ public class ItemController {
                 Item item = new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus);
                 itemsList.add(item);
             }
-
             ObservableList<Item> observableItems = FXCollections.observableArrayList(itemsList);
-            this.items.setAll(observableItems);  // Update the ObservableList in ItemController
+            this.items.setAll(observableItems); 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public ObservableList<Item> getPendingItems() {
+        ObservableList<Item> pendingItems = FXCollections.observableArrayList();
+        String query = "SELECT * FROM Items WHERE Item_status = 'Pending'";
+
+        try (ResultSet rs = con.execQuery(query)) {
+            while (rs.next()) {
+                String itemId = rs.getString("Item_id");
+                String itemName = rs.getString("Item_name");
+                String itemSize = rs.getString("Item_size");
+                String itemPrice = rs.getString("Item_price");
+                String itemCategory = rs.getString("Item_category");
+                String itemStatus = rs.getString("Item_status");
+                String itemWishlist = rs.getString("Item_wishlist");
+                String itemOfferStatus = rs.getString("Item_offer_status");
+
+                Item item = new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus);
+                pendingItems.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pendingItems;
+    }
+
+    public void approveItem(Item item) {
+        String query = "UPDATE Items SET Item_status = 'Approved' WHERE Item_id = ?";
+
+        try (PreparedStatement stmt = con.con.prepareStatement(query)) {
+            stmt.setString(1, item.getItemId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public void declineItem(Item item, String reason) {
+        System.out.println("Item declined: " + item.getItemId() + ", Reason: " + reason);
 
+        String query = "DELETE FROM Items WHERE Item_id = ?";
+
+        try (PreparedStatement stmt = con.con.prepareStatement(query)) {
+            stmt.setString(1, item.getItemId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void editItem(String itemId, String name, String size, String price, String category) {
     	String query = String.format(
@@ -119,7 +164,7 @@ public class ItemController {
         String query = "UPDATE Items SET Item_wishlist = '1' WHERE Item_id = ?";
         
         try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(query)) {
-            stmt.setString(1, item.getItemId());  // Set the Item ID
+            stmt.setString(1, item.getItemId()); 
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

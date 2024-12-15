@@ -9,6 +9,7 @@ import view.seller.ViewOfferPage;
 import controller.ItemController;
 import controller.OfferController;
 import model.Item;
+import view.admin.AdminHomePage;
 import view.buyer.MakeOfferPage;
 import view.buyer.WishlistPage;
 
@@ -55,4 +56,8 @@ public class ViewController {
         stage.setScene(makeOfferPage.createMakeOfferScene());
     }
     
+    public void navigateToAdminHomePage() {
+    	AdminHomePage adminHomePage = new AdminHomePage(stage, itemController);
+    	stage.setScene(adminHomePage.createAdminHomeScene());
+    }
 }
