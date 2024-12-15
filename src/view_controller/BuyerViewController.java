@@ -1,9 +1,12 @@
 package view_controller;
 
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import controller.ItemController;
+import controller.TransactionController;
 import controller.WishlistController;
 import view.buyer.BuyerHomePage;
+import view.buyer.TransactionHistoryPage;
 
 public class BuyerViewController {
 
@@ -11,6 +14,7 @@ public class BuyerViewController {
     private static BuyerViewController instance;
     private ItemController controller;
     private WishlistViewController wishlistVC;
+    private TransactionViewController transactionVC;
 
     // Singleton instance
     public static BuyerViewController getInstance(Stage stage, ItemController controller) {
@@ -42,5 +46,14 @@ public class BuyerViewController {
             wishlistVC.refreshTable();  // Memanggil refreshTable di WishlistViewController
         }
 	}
+
+	public void navigateToTransactionHistoryPage() {
+		if(transactionVC == null) {
+			transactionVC = new TransactionViewController(stage, new TransactionController());
+		}
+		transactionVC.navigateToTransaction();
+	}
+
+
 
 }

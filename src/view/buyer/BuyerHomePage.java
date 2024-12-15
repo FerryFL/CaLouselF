@@ -48,17 +48,23 @@ public class BuyerHomePage {
             BuyerViewController.getInstance(stage, controller).navigateToWishlistPage()
         );
 
+        MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
+        viewHistoryMenuItem.setOnAction(e -> 
+        	BuyerViewController.getInstance(stage,controller).navigateToTransactionHistoryPage()
+        );
+
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
             LoginViewController loginViewController = new LoginViewController(stage);
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
     }
+
     
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -98,6 +104,7 @@ public class BuyerHomePage {
         TableColumn<Item, Void> actionCol = new TableColumn<>("Actions");
         actionCol.setCellFactory(col -> new TableCell<>() {
             Button addWishlistBtn = new Button("Add to Wishlist");
+            Button buyBtn = new Button("Buy");
 
             {
                 addWishlistBtn.setOnAction(e -> {
@@ -105,11 +112,16 @@ public class BuyerHomePage {
                     String userId = "US001"; 
                     boolean success = wishlistController.addWishlist(item.getItemId(), userId);
 
-                    if (success) {	
+                    if (success) {  
                         showAlert("Item added to Wishlist successfully!");
                     } else {
                         showAlert("Failed to add item to Wishlist.");
                     }
+                });
+
+                buyBtn.setOnAction(e -> {
+                    // Placeholder for buy action, to be filled later
+                    showAlert("Buy functionality is not implemented yet.");
                 });
             }
 
@@ -119,10 +131,11 @@ public class BuyerHomePage {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    setGraphic(addWishlistBtn);
+                    setGraphic(new HBox(addWishlistBtn, buyBtn));
                 }
             }
         });
+
 
         actionCol.setMinWidth(200);
 

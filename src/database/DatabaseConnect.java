@@ -24,6 +24,11 @@ public class DatabaseConnect {
             return databaseConnect;
         }
     }
+    
+    public Connection getConnection() {
+        return con;
+    }
+
 
     private DatabaseConnect() {
         try {
@@ -77,5 +82,6 @@ public class DatabaseConnect {
         return null; // Return null if no result or an error occurs
     }
     
+
     
 }

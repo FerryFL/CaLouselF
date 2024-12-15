@@ -46,13 +46,18 @@ public class WishlistPage {
             BuyerViewController.getInstance(stage, controller).navigateToWishlistPage()
         );
 
+        MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
+        viewHistoryMenuItem.setOnAction(e -> 
+            BuyerViewController.getInstance(stage, controller).navigateToTransactionHistoryPage() // Assuming a user ID
+        );
+
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
             LoginViewController loginViewController = new LoginViewController(stage);
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
