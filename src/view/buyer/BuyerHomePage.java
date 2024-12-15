@@ -21,13 +21,13 @@ public class BuyerHomePage {
         this.stage = stage;
         this.controller = controller;
         wishlistController = new WishlistController();
-        controller.viewItems();  // Fetch items from the database and update ObservableList
-        this.tableView = createTableView();  // Now create the TableView
+        controller.viewItems();
+        this.tableView = createTableView();
     }
 
     public Scene createHomePageScene() {
         BorderPane root = new BorderPane();
-        root.setTop(createMenuBar()); // Tambahkan MenuBar
+        root.setTop(createMenuBar());
         root.setCenter(tableView);
 
         return new Scene(root, 1000, 600);

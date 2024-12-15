@@ -7,7 +7,7 @@ import view.buyer.WishlistPage;
 import controller.WishlistController;
 
 public class WishlistViewController {
-    private Stage stage;
+	private Stage stage;
     private WishlistController wishlistController;
 
     public WishlistViewController(Stage stage, WishlistController wishlistController) {
@@ -25,7 +25,7 @@ public class WishlistViewController {
     
     public void navigateToAddWishlistPage() {
         AddWishlistPage addWishlistPage = new AddWishlistPage(stage, wishlistController);
-        Scene scene = new Scene(addWishlistPage.getView(), 400, 300);  // Example dimensions
+        Scene scene = new Scene(addWishlistPage.getView(), 400, 300);  
         stage.setScene(scene);
         stage.setTitle("Add Wishlist");
         stage.show();
@@ -37,5 +37,4 @@ public class WishlistViewController {
             wishlistController.loadWishlistFromDatabase();  // Reload data from the database
         }
     }
-
 }

@@ -41,16 +41,16 @@ public class LoginViewController {
             String role = userController.validateLogin(username, password); // Get the role from DB
 
             if(username.equals("admin") && password.equals("admin")){
-            	System.out.println("Welcome Admin!");
+            	System.out.println("Welcome Admin!");	
             }else if (role.equals("Seller")) {
-                System.out.println("Welcome Seller!");
-                SellerVC.navigateToSellerHomePage();
-           } else if(role.equals("Buyer")) {
-           	System.out.println("Welcome Buyer!");
-           	BuyerVC.getInstance(primaryStage, itemController).navigateToBuyerHomePage();
-           }else {
-               System.out.println("Invalid Username/Password");
-           }
+            	System.out.println("Welcome Seller!");
+               	SellerVC.getInstance(primaryStage, itemController).navigateToSellerHomePage();
+            } else if(role.equals("Buyer")) {
+            	System.out.println("Welcome Buyer!");
+            	BuyerVC.getInstance(primaryStage, itemController).navigateToBuyerHomePage();
+            }else {
+            	System.out.println("Invalid Username/Password");
+            }
             
             
         });

@@ -29,7 +29,6 @@ public class DatabaseConnect {
         return con;
     }
 
-
     private DatabaseConnect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -74,12 +73,12 @@ public class DatabaseConnect {
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getString(1); // Get the first column of the result
+                return rs.getString(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Return null if no result or an error occurs
+        return null;
     }
     
 

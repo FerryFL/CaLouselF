@@ -26,14 +26,14 @@ public class WishlistController {
                       
         try {
             ResultSet rs = connect.execQuery(query);
-            wishlist.clear();  // Clear existing wishlist data
+            wishlist.clear();
             while (rs.next()) {
                 Wishlist wl = new Wishlist(
                     rs.getString("Wishlist_id"),
                     rs.getString("Item_name"),
                     rs.getString("User_id")
                 );
-                wishlist.add(wl);  // Add to the observable list
+                wishlist.add(wl);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,8 +59,6 @@ public class WishlistController {
         }
         return false;  
     }
-
-
 
     public boolean removeWishlist(String wishlistId) {
         String query = "DELETE FROM wishlists WHERE Wishlist_id = '" + wishlistId + "'";

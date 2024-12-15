@@ -10,6 +10,7 @@ import controller.ItemController;
 import controller.OfferController;
 import model.Item;
 import view.buyer.MakeOfferPage;
+import view.buyer.WishlistPage;
 
 public class ViewController {
 
@@ -53,4 +54,5 @@ public class ViewController {
         MakeOfferPage makeOfferPage = new MakeOfferPage(stage, itemController, new OfferController());
         stage.setScene(makeOfferPage.createMakeOfferScene());
     }
+    
 }
