@@ -22,7 +22,6 @@ public class SellerHomePage {
         this.tableView = createTableView(); 
     }
 
-
     public Scene createHomePageScene() {
         BorderPane root = new BorderPane();
         root.setCenter(tableView);
@@ -58,6 +57,11 @@ public class SellerHomePage {
         makeOfferMenuItem.setOnAction(e -> 
             ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
         );
+        
+        MenuItem adminHomeMenuItem = new MenuItem("Admin Home");
+        adminHomeMenuItem.setOnAction(e->
+        	ViewController.getInstance(stage, controller).navigateToAdminHomePage()
+        );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
@@ -65,13 +69,12 @@ public class SellerHomePage {
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, makeOfferMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, makeOfferMenuItem, adminHomeMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
     }
 
-   
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);

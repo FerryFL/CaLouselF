@@ -17,7 +17,6 @@ public class TransactionController {
         loadTransactionsFromDatabase();
     }
 
-    // Load all transactions from the database
     public void loadTransactionsFromDatabase() {
         String query = "SELECT transactions.User_id, items.Item_name, Transaction_id FROM transactions INNER JOIN items ON transactions.Item_id = items.Item_id ";
 
@@ -44,15 +43,15 @@ public class TransactionController {
 
     public boolean addTransaction(String userId, String itemId) {
         String transactionId = generateTransactionId();
-        String query = "INSERT INTO transactions (Transaction_id, User_id, Item_id) VALUES (?, ?, ?)";
+        String query = "INSERT INTO transactions (User_id, Item_id, Transaction_id) VALUES (?, ?, ?)";
 
         try (PreparedStatement stmt = connect.getConnection().prepareStatement(query)) {
-            stmt.setString(1, transactionId);
-            stmt.setString(2, userId);
-            stmt.setString(3, itemId);
+            stmt.setString(1, userId);
+            stmt.setString(2, itemId);
+            stmt.setString(3, transactionId);
 
-            stmt.executeUpdate(); // Execute the prepared statement
-            transactions.add(new Transaction(transactionId, userId, itemId)); // Update the ObservableList
+            stmt.executeUpdate(); 
+            transactions.add(new Transaction(userId, itemId, transactionId)); 
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,7 +60,6 @@ public class TransactionController {
     }
 
 
-    // Generate a unique Transaction ID
     private String generateTransactionId() {
         String lastTransactionId = null;
         String newTransactionId = "TR001";

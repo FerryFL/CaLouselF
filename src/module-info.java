@@ -7,7 +7,10 @@
 module CaLouselF {
 	
 	opens main;
-	opens view;
+	opens view.guest;
+	opens view.admin;
+	opens view.buyer;
+	opens view.seller;
 	opens controller;
 	opens model;
 	opens view_controller;

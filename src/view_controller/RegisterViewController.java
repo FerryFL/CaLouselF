@@ -3,7 +3,7 @@ package view_controller;
 import controller.UserController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.RegisterView;
+import view.guest.RegisterView;
 
 public class RegisterViewController {
 
