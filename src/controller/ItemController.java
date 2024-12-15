@@ -71,13 +71,12 @@ public class ItemController {
     }
 
     public void viewItems() {
-        String query = "SELECT * FROM Items WHERE Item_status LIKE 'Pending'";  // Adjust as needed
+        String query = "SELECT * FROM Items WHERE Item_status LIKE 'Pending'"; 
         ArrayList<Item> itemsList = new ArrayList<>();
         
-        con.rs = con.execQuery(query);  // Assuming 'con' is your DatabaseConnect object
+        con.rs = con.execQuery(query);  
         
         try {
-            // Iterate through the result set and create Item objects
             while (con.rs.next()) {
                 String itemId = con.rs.getString("Item_id");
                 String itemName = con.rs.getString("Item_name");
@@ -88,12 +87,10 @@ public class ItemController {
                 String itemWishlist = con.rs.getString("Item_wishlist");
                 String itemOfferStatus = con.rs.getString("Item_offer_status");
 
-                // Create an Item object and add it to the list
                 Item item = new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus);
                 itemsList.add(item);
             }
 
-            // Convert the ArrayList to ObservableList and update the TableView
             ObservableList<Item> observableItems = FXCollections.observableArrayList(itemsList);
             this.items.setAll(observableItems);  // Update the ObservableList in ItemController
         } catch (SQLException e) {

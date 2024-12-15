@@ -49,18 +49,29 @@ public class SellerHomePage {
             ViewController.getInstance(stage, controller).navigateToSellerHomePage()
         );
 
+        MenuItem viewOfferMenuItem = new MenuItem("View Offer");
+        viewOfferMenuItem.setOnAction(e -> 
+            ViewController.getInstance(stage, controller).navigateToViewOfferPage()
+        );
+        
+        MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
+        makeOfferMenuItem.setOnAction(e -> 
+            ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
+        );
+
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
             LoginViewController loginViewController = new LoginViewController(stage);
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, makeOfferMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
     }
-    
+
+   
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
@@ -72,7 +83,7 @@ public class SellerHomePage {
         TableView<Item> tableView = new TableView<>();
         tableView.setItems(controller.getItems());
 
-        TableColumn<Item, String> idCol = new TableColumn<>("ID");
+        TableColumn<Item, String> idCol = new TableColumn<>("Item ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
 
         TableColumn<Item, String> nameCol = new TableColumn<>("Name");
@@ -92,9 +103,6 @@ public class SellerHomePage {
 
         TableColumn<Item, String> wishlistCol = new TableColumn<>("Wishlist");
         wishlistCol.setCellValueFactory(new PropertyValueFactory<>("itemWishlist"));
-
-        TableColumn<Item, String> offerStatusCol = new TableColumn<>("Offer Status");
-        offerStatusCol.setCellValueFactory(new PropertyValueFactory<>("itemOfferStatus"));
 
         TableColumn<Item, Void> actionCol = new TableColumn<>("Actions");
         actionCol.setCellFactory(col -> new TableCell<>() {
@@ -137,7 +145,7 @@ public class SellerHomePage {
 
         actionCol.setMinWidth(200);
 
-        tableView.getColumns().addAll(idCol, nameCol, sizeCol, priceCol, categoryCol, statusCol, wishlistCol, offerStatusCol, actionCol);
+        tableView.getColumns().addAll(idCol, nameCol, sizeCol, priceCol, categoryCol, statusCol, wishlistCol, actionCol);
 
         return tableView;
     }
