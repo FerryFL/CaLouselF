@@ -9,6 +9,7 @@ import view.seller.ViewOfferPage;
 import controller.ItemController;
 import controller.OfferController;
 import model.Item;
+import view.admin.AdminHomePage;
 import view.buyer.MakeOfferPage;
 
 public class ViewController {
@@ -52,5 +53,10 @@ public class ViewController {
     public void navigateToMakeOfferPage() {
         MakeOfferPage makeOfferPage = new MakeOfferPage(stage, itemController, new OfferController());
         stage.setScene(makeOfferPage.createMakeOfferScene());
+    }
+    
+    public void navigateToAdminHomePage() {
+    	AdminHomePage adminHomePage = new AdminHomePage(stage, itemController);
+    	stage.setScene(adminHomePage.createAdminHomeScene());
     }
 }

@@ -136,22 +136,31 @@ public class OfferController {
 	}
 
     public void acceptOffer(Offer offer) {
-        String query = "UPDATE Offers SET Offer_status = 'Accepted' WHERE Offer_id = ?";
-        try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(query)) {
+        String updateOfferQuery = "UPDATE Offers SET Offer_status = 'Accepted' WHERE Offer_id = ?";
+        String updateItemQuery = "UPDATE Items SET Item_offer_status = 'Accepted' WHERE Item_id = ?";
+        TransactionController transactionController = new TransactionController();
+
+        try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(updateOfferQuery)) {
             stmt.setString(1, offer.getOfferId());
             stmt.executeUpdate();
-            
-            String updateItemQuery = "UPDATE Items SET Item_offer_status = 'Accepted' WHERE Item_id = ?";
+
             try (PreparedStatement stmtItem = DatabaseConnect.getInstance().con.prepareStatement(updateItemQuery)) {
                 stmtItem.setString(1, offer.getItemId());
                 stmtItem.executeUpdate();
             }
-            
-            showAlert("Offer Accepted", "The offer has been accepted.");
+            boolean transactionCreated = transactionController.addTransaction(offer.getUserId(), offer.getItemId());
+
+            if (transactionCreated) {
+                showAlert("Offer Accepted", "The offer has been accepted, and the transaction has been created.");
+            } else {
+                showAlert("Offer Accepted", "The offer has been accepted, but the transaction could not be created.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            showAlert("Error", "An error occurred while accepting the offer.");
         }
     }
+
 
     public void declineOffer(Offer offer, String reason) {
         String query = "UPDATE Offers SET Offer_status = 'Declined' WHERE Offer_id = ?";
