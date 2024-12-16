@@ -154,7 +154,7 @@ public class MakeOfferPage {
                     showAlert("Invalid", "Harga Offer harus lebih besar dari Harga Offer sekarang.");
                 } else {
                     offerController.submitOffer(item.getItemId(), price, "US001"); 
-                    showAlert("Valid", "Offer sudah dikirimkan");
+                    showAlert("Valid", "Offer berhasil dikirimkan");
                 }
             } catch (Exception e) {
                 showAlert("Invalid", "Masukkan angka untuk harga");

@@ -28,6 +28,7 @@ public class SellerHomePage {
         
         root.setTop(createMenuBar());
         root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
+        
 
         Button addItemButton = new Button("Add Item");
         addItemButton.setOnAction(e -> ViewController.getInstance(stage, controller).navigateToUploadItemPage());

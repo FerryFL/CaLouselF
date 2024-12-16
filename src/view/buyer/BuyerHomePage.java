@@ -110,9 +110,9 @@ public class BuyerHomePage {
                     boolean success = wishlistController.addWishlist(item.getItemId(), userId);
 
                     if (success) {  
-                        showAlert("Item berhasil diadd ke Wishlist");
+                        showAlert("Item berhasil dimasukkan ke Wishlist");
                     } else {
-                        showAlert("Item gagal diadd ke Wishlist");
+                        showAlert("Item gagal dimasukkan ke Wishlist");
                     }
                 });
 
@@ -123,9 +123,9 @@ public class BuyerHomePage {
                     boolean success = transactionController.addTransaction(userId, item.getItemId());
 
                     if (success) {
-                        showAlert("Item berhasil dibeli");
+                        showAlert("Transaksi pembelian berhasil dilakukan");
                     } else {
-                        showAlert("Item gagal dibeli");
+                        showAlert("Transaksi pembelian gagal dilakukan");
                     }
                 });
             }

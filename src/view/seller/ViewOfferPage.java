@@ -87,7 +87,7 @@ public class ViewOfferPage {
                 acceptButton.setOnAction(e -> {
                     Offer offer = getTableView().getItems().get(getIndex());
                     offerController.acceptOffer(offer);
-                    offerController.showAlert("Offer Accepted", "The offer has been accepted successfully.");
+                    offerController.showAlert("Valid", "Offer telah diterima");
                     tableView.getItems().remove(offer);
                 });
 

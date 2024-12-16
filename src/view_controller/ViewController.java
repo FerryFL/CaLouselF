@@ -34,7 +34,7 @@ public class ViewController {
 
     public void navigateToSellerHomePage() {
         SellerHomePage homePage = new SellerHomePage(stage, itemController);
-        
+        stage.setTitle("CaLouselF");
         stage.setScene(homePage.createHomePageScene());  
     }
     

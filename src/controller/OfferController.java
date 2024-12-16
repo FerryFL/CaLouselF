@@ -147,13 +147,8 @@ public class OfferController {
                 stmtItem.setString(1, offer.getItemId());
                 stmtItem.executeUpdate();
             }
-            boolean transactionCreated = transactionController.addTransaction(offer.getUserId(), offer.getItemId());
+            transactionController.addTransaction(offer.getUserId(), offer.getItemId());
 
-            if (transactionCreated) {
-                showAlert("Offer Accepted", "The offer has been accepted, and the transaction has been created.");
-            } else {
-                showAlert("Offer Accepted", "The offer has been accepted, but the transaction could not be created.");
-            }
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Error", "An error occurred while accepting the offer.");
