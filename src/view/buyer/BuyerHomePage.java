@@ -19,8 +19,7 @@ public class BuyerHomePage {
     private TableView<Item> tableView;
     private WishlistController wishlistController;
     private TransactionController transactionController;
-    private UserController userController;
-
+    
     public BuyerHomePage(Stage stage, ItemController controller) {
         this.stage = stage;
         this.controller = controller;
@@ -107,7 +106,7 @@ public class BuyerHomePage {
             {
                 addWishlistBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
-                    String userId = userController.generateUserId();
+                    String userId = "US001";
                     boolean success = wishlistController.addWishlist(item.getItemId(), userId);
 
                     if (success) {  
@@ -119,7 +118,7 @@ public class BuyerHomePage {
 
                 buyBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
-                    String userId = userController.generateUserId();
+                    String userId = "US001";
 
                     boolean success = transactionController.addTransaction(userId, item.getItemId());
 
