@@ -22,7 +22,9 @@ public class WishlistController {
     }
 
     public void loadWishlistFromDatabase() {
-        String query = "SELECT wishlists.Wishlist_id, items.Item_name, wishlists.User_id FROM wishlists INNER JOIN items ON wishlists.Item_id = items.Item_id";
+        String query = "SELECT wishlists.Wishlist_id, items.Item_name, wishlists.User_id "
+        		+ "FROM wishlists "
+        		+ "INNER JOIN items ON wishlists.Item_id = items.Item_id";
                       
         try {
             ResultSet rs = connect.execQuery(query);
@@ -60,6 +62,7 @@ public class WishlistController {
         return false;  
     }
 
+    
     public boolean removeWishlist(String wishlistId) {
         String query = "DELETE FROM wishlists WHERE Wishlist_id = '" + wishlistId + "'";
         try {

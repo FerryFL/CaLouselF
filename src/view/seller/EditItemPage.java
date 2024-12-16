@@ -19,10 +19,11 @@ public class EditItemPage {
         this.controller = controller;
         this.owner = owner;
         this.root = createUpdateItemPage();
+        root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
     }
 
     private VBox createUpdateItemPage() {
-        // Create labels for each field
+
         Label nameLabel = new Label("Item Name:");
         TextField nameTf = new TextField(item.getItemName());
 
@@ -47,23 +48,23 @@ public class EditItemPage {
             String size = sizeTf.getText();
             String price = priceTf.getText();
             String category = categoryTf.getText();
+            String msg = controller.CheckItemValidation(name, size, price, category);
             
-            if (!name.isEmpty() && !size.isEmpty() && !price.isEmpty() && !category.isEmpty()) {
-                controller.editItem(item.getItemId(), name, size, price, category);
-                showAlert("Item updated successfully!");
+            boolean isSuccess = controller.editItem(item.getItemId(), name, size, price, category);
+            if(isSuccess) {
+            	showAlert("Item updated successfully!");
                 ViewController.getInstance(owner, controller).navigateToSellerHomePage();
-            } else {
-                showAlert("All fields are required.");
+            }else {
+            	showAlert(msg);
             }
+
         });
 
-        // Create the back button
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> {
             ViewController.getInstance(owner, controller).navigateToSellerHomePage();
         });
 
-        // Arrange the fields with labels and buttons in a VBox
         VBox buttonContainer = new VBox(10, updateBtn, backBtn);
         return new VBox(10, nameLabel, nameTf, sizeLabel, sizeTf, priceLabel, priceTf, categoryLabel, categoryTf, buttonContainer);
     }

@@ -2,6 +2,7 @@ package view.buyer;
 
 import controller.ItemController;
 import controller.TransactionController;
+import controller.UserController;
 import controller.WishlistController;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,6 +19,7 @@ public class BuyerHomePage {
     private TableView<Item> tableView;
     private WishlistController wishlistController;
     private TransactionController transactionController;
+    private UserController userController;
 
     public BuyerHomePage(Stage stage, ItemController controller) {
         this.stage = stage;
@@ -85,58 +87,46 @@ public class BuyerHomePage {
         TableView<Item> tableView = new TableView<>();
         tableView.setItems(controller.getItems());
 
-        TableColumn<Item, String> idCol = new TableColumn<>("ID");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-
-        TableColumn<Item, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Item, String> nameCol = new TableColumn<>("Item Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
-        TableColumn<Item, String> sizeCol = new TableColumn<>("Size");
+        TableColumn<Item, String> sizeCol = new TableColumn<>("Item Size");
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
 
-        TableColumn<Item, String> priceCol = new TableColumn<>("Price");
+        TableColumn<Item, String> priceCol = new TableColumn<>("Item Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
-        TableColumn<Item, String> categoryCol = new TableColumn<>("Category");
+        TableColumn<Item, String> categoryCol = new TableColumn<>("Item Category");
         categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
-
-        TableColumn<Item, String> statusCol = new TableColumn<>("Status");
-        statusCol.setCellValueFactory(new PropertyValueFactory<>("itemStatus"));
-
-        TableColumn<Item, String> wishlistCol = new TableColumn<>("Wishlist");
-        wishlistCol.setCellValueFactory(new PropertyValueFactory<>("itemWishlist"));
-
-        TableColumn<Item, String> offerStatusCol = new TableColumn<>("Offer Status");
-        offerStatusCol.setCellValueFactory(new PropertyValueFactory<>("itemOfferStatus"));
 
         TableColumn<Item, Void> actionCol = new TableColumn<>("Actions");
         actionCol.setCellFactory(col -> new TableCell<>() {
             Button addWishlistBtn = new Button("Add to Wishlist");
             Button buyBtn = new Button("Buy");
-
+            
             {
                 addWishlistBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
-                    String userId = "US001"; // Example user ID; replace with actual logged-in user ID
+                    String userId = userController.generateUserId();
                     boolean success = wishlistController.addWishlist(item.getItemId(), userId);
 
                     if (success) {  
-                        showAlert("Item added to Wishlist successfully!");
+                        showAlert("Item berhasil diadd ke Wishlist");
                     } else {
-                        showAlert("Failed to add item to Wishlist.");
+                        showAlert("Item gagal diadd ke Wishlist");
                     }
                 });
 
                 buyBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
-                    String userId = "US001"; // Example user ID; replace with actual logged-in user ID
+                    String userId = userController.generateUserId();
 
                     boolean success = transactionController.addTransaction(userId, item.getItemId());
 
                     if (success) {
-                        showAlert("Item purchased successfully! Transaction recorded.");
+                        showAlert("Item berhasil dibeli");
                     } else {
-                        showAlert("Failed to complete the transaction.");
+                        showAlert("Item gagal dibeli");
                     }
                 });
             }
@@ -153,8 +143,9 @@ public class BuyerHomePage {
         });
 
         actionCol.setMinWidth(200);
-
-        tableView.getColumns().addAll(idCol, nameCol, sizeCol, priceCol, categoryCol, statusCol, wishlistCol, offerStatusCol, actionCol);
+        
+        tableView.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");
+        tableView.getColumns().addAll(nameCol, sizeCol, priceCol, categoryCol, actionCol);
 
         return tableView;
     }

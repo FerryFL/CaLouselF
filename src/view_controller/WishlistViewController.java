@@ -14,10 +14,10 @@ public class WishlistViewController {
         this.stage = stage;
         this.wishlistController = wishlistController;
     }
-
+    
     public void navigateToWishlistPage() {
         WishlistPage wishlistPage = new WishlistPage(stage, wishlistController);
-        Scene scene = new Scene(wishlistPage.getView(), 800, 600);  // Example dimensions
+        Scene scene = new Scene(wishlistPage.getView(), 1000, 600); 
         stage.setScene(scene);
         stage.setTitle("Wishlist Page");
         stage.show();
@@ -33,8 +33,8 @@ public class WishlistViewController {
 
     public void refreshTable() {
         if (wishlistController != null) {
-            wishlistController.getWishlist().clear();  // Clear existing data
-            wishlistController.loadWishlistFromDatabase();  // Reload data from the database
+            wishlistController.getWishlist().clear();
+            wishlistController.loadWishlistFromDatabase(); 
         }
     }
 }

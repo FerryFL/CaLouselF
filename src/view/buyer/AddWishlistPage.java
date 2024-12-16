@@ -1,6 +1,6 @@
 package view.buyer;
 
-import controller.WishlistController;
+import controller.WishlistController;	
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -11,7 +11,7 @@ public class AddWishlistPage {
     private TextField itemIdField;
     private Button addButton;
     private Stage stage;
-
+    
     public AddWishlistPage(Stage stage, WishlistController wishlistController) {
     	this.stage = stage;
         this.wishlistController = wishlistController;

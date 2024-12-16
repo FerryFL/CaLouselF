@@ -39,8 +39,8 @@ public class UserController {
             return "Password harus minimal 8 karakter dan mengandung special karakter (!,@,#,$,%,^,&,*)";
         }
 
-        if (Phone_Number==null || !Phone_Number.matches("\\+62\\d{10}")) {
-            return "Nomor Telp harus diawal dengan +62 dan diikuti dengan 10 digit";
+        if (Phone_Number==null || !Phone_Number.matches("\\+62\\d{9}")) {
+            return "Nomor Telp harus diawal dengan +62 dan diikuti dengan 9 digit";
         }
         
         if (Address==null || Address.trim().isEmpty()) {
@@ -65,7 +65,7 @@ public class UserController {
         }
     }
     
-    private String generateUserId() {
+    public String generateUserId() {
 		
 		String lastUserId = null;
 	    String newUserId = "US001";
@@ -90,7 +90,7 @@ public class UserController {
 	    return newUserId;
 	    
 	}
-
+    
     public boolean registerUser(String username, String password, String phoneNumber, String address, String role) {
         String msg = CheckAccountValidation(username, password, phoneNumber, address, role);
         if (msg!=null) {

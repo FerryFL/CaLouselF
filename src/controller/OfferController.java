@@ -23,7 +23,6 @@ public class OfferController {
         ObservableList<Offer> offerList = FXCollections.observableArrayList();
 
         try {
-
             con.rs = con.execQuery(query);
 
             while (con.rs.next()) {

@@ -1,4 +1,4 @@
-package view.admin;
+	package view.admin;
 
 import controller.ItemController;
 import javafx.scene.Scene;
@@ -27,6 +27,7 @@ public class AdminHomePage {
         BorderPane root = new BorderPane();
         root.setCenter(tableView);
         root.setTop(createMenuBar());
+        root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
 
         return new Scene(root, 1000, 600);
     }
@@ -64,7 +65,7 @@ public class AdminHomePage {
 
         TableColumn<Item, String> sizeCol = new TableColumn<>("Size");
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
-
+        
         TableColumn<Item, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
@@ -103,6 +104,7 @@ public class AdminHomePage {
             }
         });
 
+       
         tableView.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, actionsCol);
         return tableView;
     }
@@ -111,14 +113,14 @@ public class AdminHomePage {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Decline Item");
         dialog.setHeaderText("Decline Item: " + item.getItemName());
-        dialog.setContentText("Reason for Declining:");
+        dialog.setContentText("Alasan decline: ");
 
         dialog.showAndWait().ifPresent(reason -> {
             if (reason.trim().isEmpty()) {
-                showAlert("Error", "Decline reason cannot be empty.");
+                showAlert("Invalid", "Alasan tidak boleh kosong");
             } else {
                 itemController.declineItem(item, reason);
-                showAlert("Item Declined", "The item has been declined and removed from the list.");
+                showAlert("Valid", "Item terdecline dan dihapus dari list");
                 tableView.getItems().remove(item);
             }
         });

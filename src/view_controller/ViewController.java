@@ -18,6 +18,7 @@ public class ViewController {
     Stage stage;
     private static ViewController instance;
     private ItemController itemController;
+    private OfferController offerController;
 
     public static ViewController getInstance(Stage stage, ItemController controller) {
         if (instance == null && stage != null) {
@@ -33,8 +34,10 @@ public class ViewController {
 
     public void navigateToSellerHomePage() {
         SellerHomePage homePage = new SellerHomePage(stage, itemController);
+        
         stage.setScene(homePage.createHomePageScene());  
     }
+    
 
     public void navigateToUploadItemPage() {
         UploadItemPage uploadItemPage = new UploadItemPage(stage, itemController);
@@ -52,7 +55,14 @@ public class ViewController {
     }
     
     public void navigateToMakeOfferPage() {
-        MakeOfferPage makeOfferPage = new MakeOfferPage(stage, itemController, new OfferController());
+    	if (itemController == null) {
+            itemController = new ItemController();
+        }
+        
+        if (offerController == null) {
+            offerController = new OfferController();
+        }
+        MakeOfferPage makeOfferPage = new MakeOfferPage(stage, itemController, offerController);
         stage.setScene(makeOfferPage.createMakeOfferScene());
     }
     

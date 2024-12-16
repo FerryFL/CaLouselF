@@ -11,7 +11,7 @@ public class Wishlist {
 		Item_id = itemId;
 		User_id = userId;
 	}
-
+	
 	public String getWishlistId() {
 		return Wishlist_id;
 	}

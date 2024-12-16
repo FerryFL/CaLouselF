@@ -3,7 +3,11 @@ package controller;
 import database.DatabaseConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 import model.Transaction;
+import model.TransactionHistory;
+import model.Wishlist;
+import view_controller.BuyerViewController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,52 +16,60 @@ import java.sql.SQLException;
 public class TransactionController {
     private DatabaseConnect connect = DatabaseConnect.getInstance();
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
-
+    private ObservableList<TransactionHistory> transactionHistory = FXCollections.observableArrayList();
+    private Stage stage;
+    private ItemController controller;
+    
     public TransactionController() {
         loadTransactionsFromDatabase();
     }
-
+   
     public void loadTransactionsFromDatabase() {
-        String query = "SELECT transactions.User_id, items.Item_name, Transaction_id FROM transactions INNER JOIN items ON transactions.Item_id = items.Item_id ";
-
+        String query = "SELECT transactions.transaction_id, items.Item_name, items.Item_category, items.Item_size, items.Item_price FROM transactions "
+        		+ "INNER JOIN items ON transactions.Item_id = items.Item_id";
         try {
             ResultSet rs = connect.execQuery(query);
-            transactions.clear(); // Clear existing transactions
+            transactions.clear(); 
             while (rs.next()) {
-                Transaction transaction = new Transaction(
-                    rs.getString("Transaction_id"),
-                    rs.getString("User_id"),
-                    rs.getString("Item_name")
+                TransactionHistory transactions = new TransactionHistory(
+                    rs.getString("transaction_id"),
+                    rs.getString("Item_name"),
+                    rs.getString("Item_size"),
+                    rs.getString("Item_price"),
+                    rs.getString("Item_category")
                 );
-                transactions.add(transaction); // Add to the observable list
+                transactionHistory.add(transactions);
             }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
+    public ObservableList<TransactionHistory> getTransactionHistory() {
+		return transactionHistory;
+	}
 
-    // Getter for the transactions list
-    public ObservableList<Transaction> getTransactions() {
+	public ObservableList<Transaction> getTransactions() {
         return transactions;
     }
 
     public boolean addTransaction(String userId, String itemId) {
         String transactionId = generateTransactionId();
-        String query = "INSERT INTO transactions (User_id, Item_id, Transaction_id) VALUES (?, ?, ?)";
-
-        try (PreparedStatement stmt = connect.getConnection().prepareStatement(query)) {
-            stmt.setString(1, userId);
-            stmt.setString(2, itemId);
-            stmt.setString(3, transactionId);
-
-            stmt.executeUpdate(); 
-            transactions.add(new Transaction(userId, itemId, transactionId)); 
+        String query = "INSERT INTO transactions (User_id, Item_id, Transaction_id) "
+        		+ "VALUES ('" + userId + "', '" + itemId + "', '" + transactionId + "')";
+       
+        try {
+            connect.execUpdate(query);
+            transactions.add(new Transaction(userId, itemId, transactionId));
+            BuyerViewController.getInstance(stage, controller).refreshTransactionTable();  
             return true;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return false;  
     }
+
 
 
     private String generateTransactionId() {

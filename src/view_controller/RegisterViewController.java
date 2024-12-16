@@ -48,7 +48,6 @@ public class RegisterViewController {
         });
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Registration Form");
         primaryStage.show();
     }
 

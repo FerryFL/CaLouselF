@@ -9,19 +9,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.Item;
+import view_controller.BuyerViewController;
+import view_controller.LoginViewController;
 import view_controller.ViewController;
 
 public class MakeOfferPage {
 
-    private final Stage stage;                  // The main stage of the application
-    private final ItemController itemController; // Handles item-related operations
-    private final OfferController offerController; // Handles offer-related operations
+    private final Stage stage; 
+    private final ItemController itemController; 
+    private final OfferController offerController; 
 
-    // Constructor
     public MakeOfferPage(Stage stage, ItemController itemController, OfferController offerController) {
-        if (stage == null || itemController == null || offerController == null) {
-            throw new IllegalArgumentException("Stage, ItemController, and OfferController cannot be null.");
-        }
         this.stage = stage;
         this.itemController = itemController;
         this.offerController = offerController;
@@ -36,6 +34,7 @@ public class MakeOfferPage {
 
         return new Scene(root, 1000, 600);
     }
+   
 
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
@@ -43,20 +42,31 @@ public class MakeOfferPage {
 
         MenuItem homeMenuItem = new MenuItem("Home");
         homeMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, itemController).navigateToSellerHomePage()
+            BuyerViewController.getInstance(stage, itemController).navigateToBuyerHomePage()
         );
 
-        MenuItem viewOfferMenuItem = new MenuItem("View Offer");
-        viewOfferMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, itemController).navigateToViewOfferPage()
+        MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
+        makeOfferMenuItem.setOnAction(e -> 
+            ViewController.getInstance(stage, itemController).navigateToMakeOfferPage()
+        );
+        
+        MenuItem wishlistMenuItem = new MenuItem("Wishlist");
+        wishlistMenuItem.setOnAction(e -> 
+            BuyerViewController.getInstance(stage, itemController).navigateToWishlistPage()
+        );
+        
+        MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
+        viewHistoryMenuItem.setOnAction(e -> 
+            BuyerViewController.getInstance(stage, itemController).navigateToTransactionHistoryPage()
         );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
-            ViewController.getInstance(stage, itemController).navigateToSellerHomePage(); 
+        	LoginViewController loginViewController = new LoginViewController(stage);
+            loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, makeOfferMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
@@ -67,7 +77,6 @@ public class MakeOfferPage {
         ObservableList<Item> items = itemController.getItems();
         tableView.setItems(items);
 
-        // Table columns
         TableColumn<Item, String> idCol = new TableColumn<>("Item ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
 
@@ -108,7 +117,7 @@ public class MakeOfferPage {
             }
         });
 
-        // Add columns to the table
+        tableView.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");
         tableView.getColumns().addAll(idCol, nameCol, sizeCol, priceCol, categoryCol, actionCol);
         return tableView;
     }
@@ -118,7 +127,6 @@ public class MakeOfferPage {
         dialog.setTitle("Make Offer");
         dialog.setHeaderText("Offer a Price for Item: " + item.getItemName());
 
-        // Input field for offer price
         TextField offerPriceField = new TextField();
         offerPriceField.setPromptText("Enter your offer price");
 
@@ -126,7 +134,6 @@ public class MakeOfferPage {
         form.setStyle("-fx-padding: 10;");
         dialog.getDialogPane().setContent(form);
 
-        // Buttons
         ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
 
@@ -142,15 +149,15 @@ public class MakeOfferPage {
                 double price = Double.parseDouble(offerPrice);
                 double currentHighestOffer = offerController.getHighestOffer(item.getItemId());
                 if (price <= 0) {
-                    showAlert("Invalid Offer", "Offer price must be greater than zero.");
+                    showAlert("Invalid", "Harga Offer harus lebih besar dari 0");
                 } else if (price <= currentHighestOffer) {
-                    showAlert("Offer Rejected", "Offer price must be higher than the current highest offer.");
+                    showAlert("Invalid", "Harga Offer harus lebih besar dari Harga Offer sekarang.");
                 } else {
                     offerController.submitOffer(item.getItemId(), price, "US001"); 
-                    showAlert("Offer Submitted", "Your offer has been submitted.");
+                    showAlert("Valid", "Offer sudah dikirimkan");
                 }
-            } catch (NumberFormatException e) {
-                showAlert("Invalid Input", "Please enter a valid number for the offer price.");
+            } catch (Exception e) {
+                showAlert("Invalid", "Masukkan angka untuk harga");
             }
         });
     }

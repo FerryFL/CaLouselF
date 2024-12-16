@@ -16,18 +16,24 @@ public class UploadItemPage {
         this.stage = stage;
         this.controller = controller;
         this.root = createUploadItemPage();
+        root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
     }
 
     private VBox createUploadItemPage() {
+
+    	Label nameLabel = new Label("Item Name:");
         TextField nameTf = new TextField();
         nameTf.setPromptText("Name");
 
+        Label sizeLabel = new Label("Item Size:");
         TextField sizeTf = new TextField();
         sizeTf.setPromptText("Size");
 
+        Label priceLabel = new Label("Item Price:");
         TextField priceTf = new TextField();
         priceTf.setPromptText("Price");
 
+        Label categoryLabel = new Label("Item Category:");
         TextField categoryTf = new TextField();
         categoryTf.setPromptText("Category");
 
@@ -37,13 +43,14 @@ public class UploadItemPage {
             String size = sizeTf.getText();
             String price = priceTf.getText();
             String category = categoryTf.getText();
-
-            if (!name.isEmpty() && !size.isEmpty() && !price.isEmpty() && !category.isEmpty()) {
-                controller.addItemToDatabase(name, size, price, category); // Insert into DB
-                showAlert("Item added successfully to the database!");
-                clearInputs(nameTf, sizeTf, priceTf, categoryTf);
-            } else {
-                showAlert("All fields are required.");
+            
+            String msg = controller.CheckItemValidation(name, size, price, category);
+            
+            boolean isSuccess = controller.addItemToDatabase(name, size, price, category);
+            if(isSuccess) {
+            	showAlert("Item berhasil dimasukkan ke database");
+            }else {
+            	showAlert(msg);
             }
         });
 
@@ -54,7 +61,7 @@ public class UploadItemPage {
         });
 
         VBox buttonContainer = new VBox(10, addBtn, backBtn);
-        return new VBox(10, nameTf, sizeTf, priceTf, categoryTf, buttonContainer);
+        return new VBox(10, nameLabel, nameTf, sizeLabel, sizeTf, priceLabel, priceTf, categoryLabel, categoryTf, buttonContainer);
     }
 
     public VBox getRoot() {

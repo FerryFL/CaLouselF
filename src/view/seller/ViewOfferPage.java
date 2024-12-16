@@ -27,7 +27,8 @@ public class ViewOfferPage {
         BorderPane root = new BorderPane();
         root.setCenter(tableView);
         root.setTop(createMenuBar());
-
+        root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
+        
         return new Scene(root, 1000, 600);
     }
 
@@ -45,18 +46,13 @@ public class ViewOfferPage {
             ViewController.getInstance(stage, null).navigateToViewOfferPage()
         );
         
-        MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
-        makeOfferMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, null).navigateToMakeOfferPage()
-        );
-
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
         	LoginViewController loginViewController = new LoginViewController(stage);
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, makeOfferMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
@@ -66,31 +62,28 @@ public class ViewOfferPage {
 	private TableView<Offer> createTableView() {
         TableView<Offer> tableView = new TableView<>();
         tableView.setItems(offerController.getOffers());
-
-        // Column for Item ID
-        TableColumn<Offer, String> itemIdCol = new TableColumn<>("Item ID");
-        itemIdCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-
-        // Column for Item Name
+        
+        TableColumn<Offer, String> itemCategoryCol = new TableColumn<>("Item Category");
+        itemCategoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
+        
+        TableColumn<Offer, String> itemSizeCol = new TableColumn<>("Item Size");
+        itemSizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
+        
         TableColumn<Offer, String> itemNameCol = new TableColumn<>("Item Name");
         itemNameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        // Column for Initial Price
         
         TableColumn<Offer, String> itemPriceCol = new TableColumn<>("Initial Price");
         itemPriceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
-        // Column for Offered Price
         TableColumn<Offer, String> offerPriceCol = new TableColumn<>("Offered Price");
         offerPriceCol.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
 
-        // Column for Actions
         TableColumn<Offer, Void> actionsCol = new TableColumn<>("Actions");
         actionsCol.setCellFactory(param -> new TableCell<>() {
             private final Button acceptButton = new Button("Accept");
             private final Button declineButton = new Button("Decline");
 
             {
-                // Event for Accept button
                 acceptButton.setOnAction(e -> {
                     Offer offer = getTableView().getItems().get(getIndex());
                     offerController.acceptOffer(offer);
@@ -98,17 +91,16 @@ public class ViewOfferPage {
                     tableView.getItems().remove(offer);
                 });
 
-                // Event for Decline button
                 declineButton.setOnAction(e -> {
                     Offer offer = getTableView().getItems().get(getIndex());
                     TextInputDialog dialog = new TextInputDialog();
                     dialog.setTitle("Decline Offer");
                     dialog.setHeaderText("Decline Offer for Item: " + offer.getItemName());
-                    dialog.setContentText("Reason for Declining:");
+                    dialog.setContentText("Alasan Decline :");
 
                     dialog.showAndWait().ifPresent(reason -> {
                         if (reason.trim().isEmpty()) {
-                            offerController.showAlert("Error", "Decline reason cannot be empty.");
+                            offerController.showAlert("Invalid", "Alasan decline tidak boleh kosong");
                         } else {
                             offerController.declineOffer(offer, reason);
                             tableView.getItems().remove(offer);
@@ -130,7 +122,7 @@ public class ViewOfferPage {
             }
         });
 
-        tableView.getColumns().addAll(itemIdCol, itemNameCol, itemPriceCol, offerPriceCol, actionsCol);
+        tableView.getColumns().addAll(itemNameCol,itemCategoryCol, itemSizeCol, itemPriceCol, offerPriceCol, actionsCol);
         return tableView;
     }
 }

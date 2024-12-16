@@ -27,6 +27,7 @@ public class SellerHomePage {
         root.setCenter(tableView);
         
         root.setTop(createMenuBar());
+        root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
 
         Button addItemButton = new Button("Add Item");
         addItemButton.setOnAction(e -> ViewController.getInstance(stage, controller).navigateToUploadItemPage());
@@ -52,16 +53,11 @@ public class SellerHomePage {
         viewOfferMenuItem.setOnAction(e -> 
             ViewController.getInstance(stage, controller).navigateToViewOfferPage()
         );
-        
-        MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
-        makeOfferMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
-        );
-        
-        MenuItem adminHomeMenuItem = new MenuItem("Admin Home");
-        adminHomeMenuItem.setOnAction(e->
-        	ViewController.getInstance(stage, controller).navigateToAdminHomePage()
-        );
+
+//        MenuItem adminHomeMenuItem = new MenuItem("Admin Home");
+//        adminHomeMenuItem.setOnAction(e->
+//        	ViewController.getInstance(stage, controller).navigateToAdminHomePage()
+//        );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
@@ -69,7 +65,7 @@ public class SellerHomePage {
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, makeOfferMenuItem, adminHomeMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, viewOfferMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
@@ -86,9 +82,6 @@ public class SellerHomePage {
         TableView<Item> tableView = new TableView<>();
         tableView.setItems(controller.getItems());
 
-        TableColumn<Item, String> idCol = new TableColumn<>("Item ID");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-
         TableColumn<Item, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
@@ -101,12 +94,6 @@ public class SellerHomePage {
         TableColumn<Item, String> categoryCol = new TableColumn<>("Category");
         categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 
-        TableColumn<Item, String> statusCol = new TableColumn<>("Status");
-        statusCol.setCellValueFactory(new PropertyValueFactory<>("itemStatus"));
-
-        TableColumn<Item, String> wishlistCol = new TableColumn<>("Wishlist");
-        wishlistCol.setCellValueFactory(new PropertyValueFactory<>("itemWishlist"));
-
         TableColumn<Item, Void> actionCol = new TableColumn<>("Actions");
         actionCol.setCellFactory(col -> new TableCell<>() {
             Button deleteBtn = new Button("Delete");
@@ -117,12 +104,12 @@ public class SellerHomePage {
             	    Item item = getTableView().getItems().get(getIndex());
             	    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             	    alert.setTitle("Delete Confirmation");
-            	    alert.setContentText("Are you sure you want to delete this item?");
+            	    alert.setContentText("Apakah kamu ingin menghapus item ini");
             	    alert.showAndWait().ifPresent(response -> {
             	        if (response == ButtonType.OK) {
             	            controller.deleteItem(item.getItemId());
             	            tableView.refresh();  
-            	            showAlert("Item deleted successfully!");
+            	            showAlert("Item berhasil di tambahkan");
             	        }
             	    });
             	});
@@ -148,7 +135,8 @@ public class SellerHomePage {
 
         actionCol.setMinWidth(200);
 
-        tableView.getColumns().addAll(idCol, nameCol, sizeCol, priceCol, categoryCol, statusCol, wishlistCol, actionCol);
+        tableView.getColumns().addAll(nameCol, sizeCol, priceCol, categoryCol, actionCol);
+        
 
         return tableView;
     }

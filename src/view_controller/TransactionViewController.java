@@ -23,9 +23,17 @@ public class TransactionViewController {
 		this.controller = controller;
 	}
 	
+	
+	public void refreshTable() {
+        if (controller != null) {
+            controller.getTransactions().clear();  
+            controller.loadTransactionsFromDatabase();  
+        }
+    }
+
 	public void navigateToTransaction() {
 		TransactionHistoryPage transactionView = new TransactionHistoryPage(stage, controller);
-		Scene scene = new Scene(transactionView.getView(),400,300);
+		Scene scene = new Scene(transactionView.getView(),1000,600);
 		stage.setScene(scene);
 		stage.setTitle("Transaction");
 		stage.show();

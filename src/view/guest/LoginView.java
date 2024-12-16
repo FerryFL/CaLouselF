@@ -18,6 +18,7 @@ public class LoginView {
         usernameField = new TextField();
         usernameField.setPromptText("Masukan Username");
 
+        
         passwordField = new PasswordField();
         passwordField.setPromptText("Masukan Password");
 

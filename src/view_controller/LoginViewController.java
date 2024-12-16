@@ -31,27 +31,32 @@ public class LoginViewController {
         BuyerVC = BuyerViewController.getInstance(primaryStage, itemController);
     }
 
+    
     public void navigateToLogin() {
         LoginView loginView = new LoginView();
-        Scene scene = new Scene(loginView.getLoginForm(), 300, 300);
+        Scene scene = new Scene(loginView.getLoginForm(), 300, 250);
 
         loginView.getLoginButton().setOnAction(e -> {
             String username = loginView.getUsernameField().getText();
             String password = loginView.getPasswordField().getText();
-            String role = userController.validateLogin(username, password); // Get the role from DB
-
-            if(username.equals("admin") && password.equals("admin")){
-            	System.out.println("Welcome Admin!");
-            	VC.getInstance(primaryStage, itemController).navigateToAdminHomePage();
-            }else if (role.equals("Seller")) {
-                System.out.println("Welcome Seller!");
-                VC.getInstance(primaryStage, itemController).navigateToSellerHomePage();
-           } else if(role.equals("Buyer")) {
-	           	System.out.println("Welcome Buyer!");
-	           	BuyerVC.getInstance(primaryStage, itemController).navigateToBuyerHomePage();
-           }else {
-               System.out.println("Invalid Username/Password");
-           }
+            String role = userController.validateLogin(username, password); 
+            
+            if(role!= null) {
+            	if(username.equals("admin") && password.equals("admin")){
+                	System.out.println("Selamat Datang Admin!");
+                	VC.getInstance(primaryStage, itemController).navigateToAdminHomePage();
+                }else if (role.equals("Seller")) {
+                    System.out.println("Selamat Datang Seller!");
+                    VC.getInstance(primaryStage, itemController).navigateToSellerHomePage();
+               } else if(role.equals("Buyer")) {
+    	           	System.out.println("Selamat Datang Buyer!");
+    	           	BuyerVC.getInstance(primaryStage, itemController).navigateToBuyerHomePage();
+               }else {
+                   System.out.println("Invalid Username/Password");
+               }
+            }else {
+            	System.out.println("Invalid Username/Password");
+            }
             
             
         });

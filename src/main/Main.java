@@ -22,7 +22,7 @@ public class Main extends Application {
     	
 //    	ViewController viewController = ViewController.getInstance(primaryStage, controller);
 //    	viewController.navigateToSellerHomePage(); 
-
+        
         primaryStage.setTitle("CalouselF");
         primaryStage.show();
     }

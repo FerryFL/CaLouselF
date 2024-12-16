@@ -7,13 +7,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Transaction;
+import model.TransactionHistory;
 import view_controller.BuyerViewController;
 import view_controller.LoginViewController;
+import view_controller.ViewController;
 
 public class TransactionHistoryPage {
 
     private TransactionController transactionController;
-    private TableView<Transaction> transactionTable;
+    private TableView<TransactionHistory> transactionTable;
     private Stage stage;
     private ItemController controller;
 
@@ -40,6 +42,11 @@ public class TransactionHistoryPage {
         homeMenuItem.setOnAction(e -> 
             BuyerViewController.getInstance(stage, controller).navigateToBuyerHomePage()
         );
+        
+        MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
+        makeOfferMenuItem.setOnAction(e -> 
+            ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
+        );
 
         MenuItem wishlistMenuItem = new MenuItem("Wishlist");
         wishlistMenuItem.setOnAction(e -> 
@@ -57,34 +64,38 @@ public class TransactionHistoryPage {
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, makeOfferMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
     }
 
-    private TableView<Transaction> createTableView() {
-        TableView<Transaction> tableView = new TableView<>();
-        tableView.setItems(transactionController.getTransactions());
-        
-  
-        
-        TableColumn<Transaction, String> itemIdCol = new TableColumn<>("Item Name");
-        itemIdCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+    private TableView<TransactionHistory> createTableView() {
+        TableView<TransactionHistory> tableView = new TableView<>();
+        tableView.setItems(transactionController.getTransactionHistory());
 
-        TableColumn<Transaction, String> transactionIdCol = new TableColumn<>("Transaction ID");
-        transactionIdCol.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
+        TableColumn<TransactionHistory, String> transactionIdCol = new TableColumn<>("Transaction ID");
+        transactionIdCol.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
         
-        TableColumn<Transaction, String> userIdCol = new TableColumn<>("User ID");
-        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
-
-
-        tableView.getColumns().addAll(userIdCol, itemIdCol, transactionIdCol);
+        TableColumn<TransactionHistory, String> itemNameCol = new TableColumn<>("Item Name");
+        itemNameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        
+        TableColumn<TransactionHistory, String> itemCategoryCol = new TableColumn<>("Item Category");
+        itemCategoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
+        
+        TableColumn<TransactionHistory, String> itemSizeCol = new TableColumn<>("Item Size");
+        itemSizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
+        
+        TableColumn<TransactionHistory, String> itemPriceCol = new TableColumn<>("Item Price");
+        itemPriceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+        
+        tableView.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
+        tableView.getColumns().addAll(transactionIdCol, itemNameCol, itemCategoryCol, itemSizeCol, itemPriceCol);
 
         return tableView;
     }
 
     public void refreshTable() {
-        transactionTable.setItems(transactionController.getTransactions());
+        transactionTable.setItems(transactionController.getTransactionHistory());
     }
 }

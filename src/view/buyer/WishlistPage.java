@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import model.Wishlist;
 import view_controller.BuyerViewController;
 import view_controller.LoginViewController;
+import view_controller.ViewController;
 
 public class WishlistPage {
 
@@ -22,7 +23,7 @@ public class WishlistPage {
         this.wishlistController = wishlistController;
         this.wishlistTable = createTableView();
     }
-
+    
     public BorderPane getView() {
         BorderPane root = new BorderPane();
         root.setTop(createMenuBar());
@@ -40,15 +41,21 @@ public class WishlistPage {
         homeMenuItem.setOnAction(e -> 
             BuyerViewController.getInstance(stage, controller).navigateToBuyerHomePage()
         );
+        
+        MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
+        makeOfferMenuItem.setOnAction(e -> 
+            ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
+        );
 
         MenuItem wishlistMenuItem = new MenuItem("Wishlist");
         wishlistMenuItem.setOnAction(e -> 
             BuyerViewController.getInstance(stage, controller).navigateToWishlistPage()
         );
+       
 
         MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
         viewHistoryMenuItem.setOnAction(e -> 
-            BuyerViewController.getInstance(stage, controller).navigateToTransactionHistoryPage() // Assuming a user ID
+            BuyerViewController.getInstance(stage, controller).navigateToTransactionHistoryPage()
         );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
@@ -57,7 +64,7 @@ public class WishlistPage {
             loginViewController.navigateToLogin();
         });
 
-        menu.getItems().addAll(homeMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
+        menu.getItems().addAll(homeMenuItem, makeOfferMenuItem, wishlistMenuItem, viewHistoryMenuItem, logoutMenuItem);
         menuBar.getMenus().add(menu);
 
         return menuBar;
@@ -67,14 +74,8 @@ public class WishlistPage {
         TableView<Wishlist> tableView = new TableView<>();
         tableView.setItems(wishlistController.getWishlist());
 
-        TableColumn<Wishlist, String> idCol = new TableColumn<>("ID");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("wishlistId"));
-
         TableColumn<Wishlist, String> itemNameCol = new TableColumn<>("Item Name");
         itemNameCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-
-        TableColumn<Wishlist, String> userIdCol = new TableColumn<>("User ID");
-        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
 
         TableColumn<Wishlist, Void> actionCol = new TableColumn<>("Actions");
         actionCol.setCellFactory(col -> new TableCell<>() {
@@ -86,7 +87,7 @@ public class WishlistPage {
 
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Delete Confirmation");
-                    alert.setHeaderText("Are you sure you want to delete this wishlist item?");
+                    alert.setHeaderText("Apakah anda yakin ingin menghapus Wishlist Item ini?");
                     alert.setContentText("Item: " + selectedWishlist.getWishlistId());
 
                     if (alert.showAndWait().get() == ButtonType.OK) {
@@ -96,12 +97,12 @@ public class WishlistPage {
                             getTableView().getItems().remove(selectedWishlist);
                             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                             successAlert.setTitle("Success");
-                            successAlert.setHeaderText("Item deleted successfully!");
+                            successAlert.setHeaderText("Item berhasil didelete");
                             successAlert.show();
                         } else {
                             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                             errorAlert.setTitle("Error");
-                            errorAlert.setHeaderText("Failed to delete the item.");
+                            errorAlert.setHeaderText("Item gagal didelete");
                             errorAlert.show();
                         }
                     }
@@ -119,7 +120,8 @@ public class WishlistPage {
             }
         });
 
-        tableView.getColumns().addAll(idCol, itemNameCol, userIdCol, actionCol);
+        tableView.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
+        tableView.getColumns().addAll(itemNameCol, actionCol);
 
         return tableView;
     }

@@ -45,12 +45,53 @@ public class ItemController {
 	    
 	}
     
+    public String CheckItemValidation(String name, String size, String price, String category) {
+
+        if (name.trim().isEmpty()) {
+            return "Nama harus diisi";
+        }
+        if (name.trim().length() < 3) {
+            return "Name harus minimal 3 karakter!";
+        }
+        if(size.trim().isEmpty()) {
+        	return "Size harus diisi!";
+        }
+        
+        if (price.trim().isEmpty()) {
+        	return "Price harus diisi!";
+        }
+        
+        try {
+        	double parsedPrice = Double.parseDouble(price.trim());
+        	if (parsedPrice <= 0) {
+        		return "Price harus lebih dari 0";
+        	}
+        } catch (NumberFormatException e) {
+        	return "Price harus berupa angka!";
+        }
+        
+        if (category.trim().isEmpty()) {
+        	return "Category harus diisi!";
+        }
+        if (category.trim().length() < 3) {
+        	return "Category harus minimal 3 karakter!";
+        }
+
+
+        return null;
+    }
     
-    public void addItemToDatabase(String name, String size, String price, String category) {
+    public boolean addItemToDatabase(String name, String size, String price, String category) {
         String itemId = generateItemId();
         String defaultStatus = "Pending";
         String defaultWishlist = "0";
         String defaultOfferStatus = "No Offer";
+        String msg = CheckItemValidation(name, size, price, category);
+        
+        if (msg!=null) {
+            System.out.println(msg);
+            return false;
+        }
 
         String query = "INSERT INTO Items (item_id, item_name, item_size, item_price, item_category, item_status, item_wishlist, item_offer_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -64,9 +105,12 @@ public class ItemController {
             stmt.setString(7, defaultWishlist); // itemWishlist
             stmt.setString(8, defaultOfferStatus); // itemOfferStatus
             stmt.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        
     }
 
     public void viewItems() {
@@ -145,13 +189,21 @@ public class ItemController {
         }
     }
 
-    public void editItem(String itemId, String name, String size, String price, String category) {
-    	String query = String.format(
+    public boolean editItem(String itemId, String name, String size, String price, String category) {
+        String msg = CheckItemValidation(name, size, price, category);
+        
+        if (msg!=null) {
+            System.out.println(msg);
+            return false;
+        }
+        
+        String query = String.format(
 				"UPDATE Items\n" + "SET Item_name = '%s', Item_category = '%s', Item_size = '%s', Item_price = '%s'\n"
 						+ "WHERE Item_id = '%s'",
-				name, category, size, price, itemId);
+				name, category, size, price, itemId);;
+				con.execUpdate(query);
+				return true;
 
-		con.execUpdate(query);
     }
 
     public void deleteItem(String id) {
