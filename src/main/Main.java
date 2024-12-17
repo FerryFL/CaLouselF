@@ -1,6 +1,5 @@
 package main;
 
-import controller.ItemController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -17,7 +16,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        LoginViewController loginVC = new LoginViewController(primaryStage);
+    	ViewController loginVC = new ViewController(primaryStage);
         loginVC.getInstance(primaryStage).navigateToLogin();
     	
 //    	ViewController viewController = ViewController.getInstance(primaryStage, controller);

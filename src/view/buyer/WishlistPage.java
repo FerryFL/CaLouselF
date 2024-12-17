@@ -7,8 +7,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Wishlist;
-import view_controller.BuyerViewController;
-import view_controller.LoginViewController;
 import view_controller.ViewController;
 
 public class WishlistPage {
@@ -39,28 +37,28 @@ public class WishlistPage {
 
         MenuItem homeMenuItem = new MenuItem("Home");
         homeMenuItem.setOnAction(e -> 
-            BuyerViewController.getInstance(stage, controller).navigateToBuyerHomePage()
+            ViewController.getInstance(stage).navigateToBuyerHomePage()
         );
         
         MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
         makeOfferMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
+            ViewController.getInstance(stage).navigateToMakeOfferPage()
         );
 
         MenuItem wishlistMenuItem = new MenuItem("Wishlist");
         wishlistMenuItem.setOnAction(e -> 
-            BuyerViewController.getInstance(stage, controller).navigateToWishlistPage()
+            ViewController.getInstance(stage).navigateToWishlistPage()
         );
        
 
         MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
         viewHistoryMenuItem.setOnAction(e -> 
-            BuyerViewController.getInstance(stage, controller).navigateToTransactionHistoryPage()
+            ViewController.getInstance(stage).navigateToTransactionHistoryPage()
         );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
-            LoginViewController loginViewController = new LoginViewController(stage);
+        	ViewController loginViewController = new ViewController(stage);
             loginViewController.navigateToLogin();
         });
 

@@ -15,14 +15,14 @@ import view_controller.*;
 public class BuyerHomePage {    
 
     private Stage stage;
-    private ItemController controller;
+    private ItemController itemController;
     private TableView<Item> tableView;
     private WishlistController wishlistController;
     private TransactionController transactionController;
     
     public BuyerHomePage(Stage stage, ItemController controller) {
         this.stage = stage;
-        this.controller = controller;
+        this.itemController = controller;
         this.wishlistController = new WishlistController();
         this.transactionController = new TransactionController();
         controller.ViewItem();  
@@ -31,7 +31,11 @@ public class BuyerHomePage {
 
     public Scene createHomePageScene() {
         BorderPane root = new BorderPane();
-        root.setTop(createMenuBar());
+        HBox searchBox = createSearchBox();
+        MenuBar menuBar = createMenuBar();
+        HBox topBox = new HBox(10, menuBar, searchBox);
+        
+        root.setTop(topBox);
         root.setCenter(tableView);
 
         return new Scene(root, 1000, 600);
@@ -44,28 +48,28 @@ public class BuyerHomePage {
 
         MenuItem homeMenuItem = new MenuItem("Home");
         homeMenuItem.setOnAction(e -> 
-            BuyerViewController.getInstance(stage, controller).navigateToBuyerHomePage()
+            ViewController.getInstance(stage).navigateToBuyerHomePage()
         );
         
         MenuItem makeOfferMenuItem = new MenuItem("Make Offer");
         makeOfferMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, controller).navigateToMakeOfferPage()
+            ViewController.getInstance(stage).navigateToMakeOfferPage()
         );
         
 
         MenuItem wishlistMenuItem = new MenuItem("Wishlist");
         wishlistMenuItem.setOnAction(e -> 
-            BuyerViewController.getInstance(stage, controller).navigateToWishlistPage()
+            ViewController.getInstance(stage).navigateToWishlistPage()
         );
 
         MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
         viewHistoryMenuItem.setOnAction(e -> 
-            BuyerViewController.getInstance(stage, controller).navigateToTransactionHistoryPage()
+            ViewController.getInstance(stage).navigateToTransactionHistoryPage()
         );
 
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
-            LoginViewController loginViewController = new LoginViewController(stage);
+        	ViewController loginViewController = new ViewController(stage);
             loginViewController.navigateToLogin();
         });
 
@@ -73,6 +77,27 @@ public class BuyerHomePage {
         menuBar.getMenus().add(menu);
 
         return menuBar;
+    }
+    
+    private HBox createSearchBox() {
+        HBox searchBox = new HBox(10);
+        searchBox.setStyle("-fx-padding: 10;");
+
+        TextField searchField = new TextField();
+        searchField.setPromptText("Enter item name");
+
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction(e -> {
+            String searchTerm = searchField.getText().trim();
+            if (!searchTerm.isEmpty()) {
+                itemController.browseItemByName(searchTerm); 
+            } else {
+                itemController.ViewItem(); 
+            }
+        });
+
+        searchBox.getChildren().addAll(searchField, searchButton);
+        return searchBox;
     }
 
     private void showAlert(String message) {
@@ -84,18 +109,18 @@ public class BuyerHomePage {
     @SuppressWarnings("unchecked")
     private TableView<Item> createTableView() {
         TableView<Item> tableView = new TableView<>();
-        tableView.setItems(controller.getItems());
+        tableView.setItems(itemController.getItems());
 
-        TableColumn<Item, String> nameCol = new TableColumn<>("Item Name");
+        TableColumn<Item, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
-        TableColumn<Item, String> sizeCol = new TableColumn<>("Item Size");
+        TableColumn<Item, String> sizeCol = new TableColumn<>("Size");
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
 
-        TableColumn<Item, String> priceCol = new TableColumn<>("Item Price");
+        TableColumn<Item, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
-        TableColumn<Item, String> categoryCol = new TableColumn<>("Item Category");
+        TableColumn<Item, String> categoryCol = new TableColumn<>("Category");
         categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 
         TableColumn<Item, Void> actionCol = new TableColumn<>("Actions");

@@ -5,7 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import model.Wishlist;
-import view_controller.BuyerViewController;
+import view_controller.ViewController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +15,6 @@ public class WishlistController {
     private ObservableList<Wishlist> wishlist = FXCollections.observableArrayList();
     
     private Stage stage;
-    private ItemController controller;
     
     public WishlistController() {
         ViewWishlist();
@@ -25,7 +24,6 @@ public class WishlistController {
         String query = "SELECT wishlists.Wishlist_id, items.Item_name, wishlists.User_id "
         		+ "FROM wishlists "
         		+ "INNER JOIN items ON wishlists.Item_id = items.Item_id";
-                      
         try {
             ResultSet rs = connect.execQuery(query);
             wishlist.clear();
@@ -50,11 +48,10 @@ public class WishlistController {
         String wishlistId = generateWishlistId();
         String query = "INSERT INTO wishlists (Wishlist_id, Item_id, User_id) VALUES ('"
                 + wishlistId + "', '" + itemId + "', '" + userId + "')";
-
         try {
             connect.execUpdate(query);
             wishlist.add(new Wishlist(wishlistId, itemId, userId)); // Update the ObservableList
-            BuyerViewController.getInstance(stage, controller).refreshTable();  // Memanggil metode refreshTable
+            ViewController.getInstance(stage).refreshWishlistTable();  // Memanggil metode refreshTable
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +65,7 @@ public class WishlistController {
         try {
             connect.execUpdate(query);
             wishlist.removeIf(wl -> wl.getWishlistId().equals(wishlistId));  // Update the ObservableList
-            BuyerViewController.getInstance(stage, controller).refreshTable();  // Memanggil metode refreshTable
+            ViewController.getInstance(stage).refreshWishlistTable();  // Memanggil metode refreshTable
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +76,6 @@ public class WishlistController {
     private String generateWishlistId() {
         String lastWishlistId = null;
         String newWishlistId = "WL001";
-
         String query = "SELECT Wishlist_id FROM wishlists ORDER BY Wishlist_id DESC LIMIT 1";
         try {
             ResultSet rs = connect.execQuery(query);

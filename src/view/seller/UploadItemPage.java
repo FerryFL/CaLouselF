@@ -57,7 +57,7 @@ public class UploadItemPage {
 
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> {
-            ViewController.getInstance(stage, controller).navigateToSellerHomePage();
+            ViewController.getInstance(stage).navigateToSellerHomePage();
         });
 
         VBox buttonContainer = new VBox(10, addBtn, backBtn);

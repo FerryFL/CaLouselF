@@ -8,7 +8,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.Offer;
-import view_controller.LoginViewController;
 import view_controller.ViewController;
 
 public class ViewOfferPage {
@@ -38,17 +37,17 @@ public class ViewOfferPage {
 
         MenuItem homeMenuItem = new MenuItem("Home");
         homeMenuItem.setOnAction(e -> {
-        	ViewController.getInstance(stage, null).navigateToSellerHomePage();
+        	ViewController.getInstance(stage).navigateToSellerHomePage();
         });
         
         MenuItem viewOfferMenuItem = new MenuItem("View Offer");
         viewOfferMenuItem.setOnAction(e -> 
-            ViewController.getInstance(stage, null).navigateToViewOfferPage()
+            ViewController.getInstance(stage).navigateToViewOfferPage()
         );
         
         MenuItem logoutMenuItem = new MenuItem("Logout");
         logoutMenuItem.setOnAction(e -> {
-        	LoginViewController loginViewController = new LoginViewController(stage);
+        	ViewController loginViewController = new ViewController(stage);
             loginViewController.navigateToLogin();
         });
 

@@ -12,7 +12,6 @@ public class UserController {
         if ("admin".equals(username) && "admin".equals(password)) {
             return "Admin";
         }
-
         String query = "SELECT role FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
         try {
             ResultSet rs = connect.execQuery(query);
@@ -56,7 +55,6 @@ public class UserController {
 
     private boolean isunique(String username) {
         String query = "SELECT COUNT(*) FROM users WHERE username = '"+username+"'";
-
         try {
             int count = connect.execQueryForCount(query);
             return count == 0;
@@ -69,7 +67,6 @@ public class UserController {
 		
 		String lastUserId = null;
 	    String newUserId = "US001";
-	    
 	    String query = "SELECT User_id FROM users ORDER BY User_id DESC LIMIT 1";
 	    try {
 	        ResultSet rs = connect.execQuery(query);
@@ -99,7 +96,6 @@ public class UserController {
         }
 
         String query = "INSERT INTO users " + "VALUES ('"+generateUserId()+"','"+username+"','"+password+"','"+phoneNumber+"','"+address+"','"+role+"')";
-        
         try {
             connect.execUpdate(query);
             return true;

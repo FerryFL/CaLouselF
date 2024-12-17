@@ -11,13 +11,13 @@ public class EditItemPage {
 
     private Item item;
     private ItemController controller;
-    private Stage owner;
+    private Stage stage;
     private VBox root;
 
-    public EditItemPage(Item item, ItemController controller, Stage owner) {
+    public EditItemPage(Item item, ItemController controller, Stage stage) {
         this.item = item;
         this.controller = controller;
-        this.owner = owner;
+        this.stage = stage;
         this.root = createUpdateItemPage();
         root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
     }
@@ -47,7 +47,7 @@ public class EditItemPage {
             boolean isSuccess = controller.EditItem(item.getItemId(), name, size, price, category);
             if(isSuccess) {
             	showAlert("Item updated successfully!");
-                ViewController.getInstance(owner, controller).navigateToSellerHomePage();
+                ViewController.getInstance(stage).navigateToSellerHomePage();
             }else {
             	showAlert(msg);
             }
@@ -56,7 +56,7 @@ public class EditItemPage {
 
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> {
-            ViewController.getInstance(owner, controller).navigateToSellerHomePage();
+            ViewController.getInstance(stage).navigateToSellerHomePage();
         });
 
         VBox buttonContainer = new VBox(10, updateBtn, backBtn);

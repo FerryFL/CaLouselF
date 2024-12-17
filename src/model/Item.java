@@ -1,6 +1,18 @@
 package model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import database.DatabaseConnect;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Item {
+	
+	private static ObservableList<Item> items = FXCollections.observableArrayList();
+    private static DatabaseConnect con = DatabaseConnect.getInstance();
 	
 	private String itemId;
     private String itemName;
@@ -88,5 +100,9 @@ public class Item {
 	public void setItemOfferStatus(String itemOfferStatus) {
 		this.itemOfferStatus = itemOfferStatus;
 	}
-
+	
+	public ObservableList<Item> getItems() {
+	    return items;
+	}
+	
 }
