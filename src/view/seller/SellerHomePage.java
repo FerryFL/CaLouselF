@@ -18,7 +18,7 @@ public class SellerHomePage {
     public SellerHomePage(Stage stage, ItemController controller) {
         this.stage = stage;
         this.controller = controller;
-        controller.viewItems(); 
+        controller.ViewItem(); 
         this.tableView = createTableView(); 
     }
 
@@ -108,7 +108,7 @@ public class SellerHomePage {
             	    alert.setContentText("Apakah kamu ingin menghapus item ini");
             	    alert.showAndWait().ifPresent(response -> {
             	        if (response == ButtonType.OK) {
-            	            controller.deleteItem(item.getItemId());
+            	            controller.DeleteItem(item.getItemId());
             	            tableView.refresh();  
             	            showAlert("Item berhasil di tambahkan");
             	        }

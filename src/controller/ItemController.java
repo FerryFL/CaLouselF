@@ -81,7 +81,7 @@ public class ItemController {
         return null;
     }
     
-    public boolean addItemToDatabase(String name, String size, String price, String category) {
+    public boolean UploadItem(String name, String size, String price, String category) {
         String itemId = generateItemId();
         String defaultStatus = "Pending";
         String defaultWishlist = "0";
@@ -95,16 +95,16 @@ public class ItemController {
 
         String query = "INSERT INTO Items (item_id, item_name, item_size, item_price, item_category, item_status, item_wishlist, item_offer_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(query)) {
-            stmt.setString(1, itemId); // itemId
-            stmt.setString(2, name);  // itemName
-            stmt.setString(3, size);  // itemSize
-            stmt.setString(4, price); // itemPrice
-            stmt.setString(5, category); // itemCategory
-            stmt.setString(6, defaultStatus); // itemStatus
-            stmt.setString(7, defaultWishlist); // itemWishlist
-            stmt.setString(8, defaultOfferStatus); // itemOfferStatus
-            stmt.executeUpdate();
+        try (PreparedStatement st = DatabaseConnect.getInstance().con.prepareStatement(query)) {
+            st.setString(1, itemId); // itemId
+            st.setString(2, name);  // itemName
+            st.setString(3, size);  // itemSize
+            st.setString(4, price); // itemPrice
+            st.setString(5, category); // itemCategory
+            st.setString(6, defaultStatus); // itemStatus
+            st.setString(7, defaultWishlist); // itemWishlist
+            st.setString(8, defaultOfferStatus); // itemOfferStatus
+            st.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,7 +113,7 @@ public class ItemController {
         
     }
 
-    public void viewItems() {
+    public void ViewItem() {
         String query = "SELECT * FROM Items WHERE Item_status LIKE 'Approved'"; 
         ArrayList<Item> itemsList = new ArrayList<>();
         
@@ -140,7 +140,7 @@ public class ItemController {
         }
     }
     
-    public ObservableList<Item> getPendingItems() {
+    public ObservableList<Item> ViewRequestedItem() {
         ObservableList<Item> pendingItems = FXCollections.observableArrayList();
         String query = "SELECT * FROM Items WHERE Item_status = 'Pending'";
 
@@ -165,31 +165,31 @@ public class ItemController {
         return pendingItems;
     }
 
-    public void approveItem(Item item) {
+    public void ApproveItem(Item item) {
         String query = "UPDATE Items SET Item_status = 'Approved' WHERE Item_id = ?";
 
-        try (PreparedStatement stmt = con.con.prepareStatement(query)) {
-            stmt.setString(1, item.getItemId());
-            stmt.executeUpdate();
+        try (PreparedStatement st = con.con.prepareStatement(query)) {
+            st.setString(1, item.getItemId());
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void declineItem(Item item, String reason) {
+    public void DeclineItem(Item item, String reason) {
         System.out.println("Item declined: " + item.getItemId() + ", Reason: " + reason);
 
         String query = "DELETE FROM Items WHERE Item_id = ?";
 
-        try (PreparedStatement stmt = con.con.prepareStatement(query)) {
-            stmt.setString(1, item.getItemId());
-            stmt.executeUpdate();
+        try (PreparedStatement st = con.con.prepareStatement(query)) {
+            st.setString(1, item.getItemId());
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean editItem(String itemId, String name, String size, String price, String category) {
+    public boolean EditItem(String itemId, String name, String size, String price, String category) {
         String msg = CheckItemValidation(name, size, price, category);
         
         if (msg!=null) {
@@ -206,7 +206,7 @@ public class ItemController {
 
     }
 
-    public void deleteItem(String id) {
+    public void DeleteItem(String id) {
     	String query = String.format("DELETE FROM Items WHERE Item_id = '%s'", id);
 		con.execUpdate(query);
 		items.removeIf(item -> item.getItemId().equals(id));
@@ -215,9 +215,9 @@ public class ItemController {
     public void addItemToWishlist(Item item) {
         String query = "UPDATE Items SET Item_wishlist = '1' WHERE Item_id = ?";
         
-        try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(query)) {
-            stmt.setString(1, item.getItemId()); 
-            stmt.executeUpdate();
+        try (PreparedStatement st = DatabaseConnect.getInstance().con.prepareStatement(query)) {
+            st.setString(1, item.getItemId()); 
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

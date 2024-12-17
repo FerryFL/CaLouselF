@@ -8,10 +8,10 @@ import view.seller.SellerHomePage;
 import view.seller.ViewOfferPage;
 import controller.ItemController;
 import controller.OfferController;
+import controller.UserController;
 import model.Item;
 import view.admin.AdminHomePage;
 import view.buyer.MakeOfferPage;
-import view.buyer.WishlistPage;
 
 public class ViewController {
 
@@ -19,6 +19,7 @@ public class ViewController {
     private static ViewController instance;
     private ItemController itemController;
     private OfferController offerController;
+    private UserController userController;
 
     public static ViewController getInstance(Stage stage, ItemController controller) {
         if (instance == null && stage != null) {
@@ -30,14 +31,21 @@ public class ViewController {
     private ViewController(Stage stage, ItemController controller) {
         this.stage = stage;
         this.itemController = controller;
+        this.offerController = new OfferController();
+        this.userController = new UserController();
+
     }
+    
+    // Guest Page
+    
+    
+    // Seller Page
 
     public void navigateToSellerHomePage() {
         SellerHomePage homePage = new SellerHomePage(stage, itemController);
         stage.setTitle("CaLouselF");
         stage.setScene(homePage.createHomePageScene());  
     }
-    
 
     public void navigateToUploadItemPage() {
         UploadItemPage uploadItemPage = new UploadItemPage(stage, itemController);
@@ -54,17 +62,15 @@ public class ViewController {
         stage.setScene(viewOfferPage.createViewOfferScene());
     }
     
+    // Buyer Page
+    
     public void navigateToMakeOfferPage() {
-    	if (itemController == null) {
-            itemController = new ItemController();
-        }
-        
-        if (offerController == null) {
-            offerController = new OfferController();
-        }
-        MakeOfferPage makeOfferPage = new MakeOfferPage(stage, itemController, offerController);
-        stage.setScene(makeOfferPage.createMakeOfferScene());
+        MakeOfferPage page = new MakeOfferPage(stage, itemController, offerController);
+        stage.setScene(page.createMakeOfferScene());
     }
+
+    
+    // Admin Page
     
     public void navigateToAdminHomePage() {
     	AdminHomePage adminHomePage = new AdminHomePage(stage, itemController);

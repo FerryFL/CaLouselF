@@ -35,7 +35,7 @@ public class RegisterViewController {
             String address = registerView.getAddressField().getText();
             String role = registerView.getSelectedRole();
 
-            boolean success = registerController.registerUser(username, password, phoneNumber, address, role);
+            boolean success = registerController.Register(username, password, phoneNumber, address, role);
 
             if (success) {
                 System.out.println("Registration successful!");

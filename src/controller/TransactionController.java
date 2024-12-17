@@ -21,10 +21,10 @@ public class TransactionController {
     private ItemController controller;
     
     public TransactionController() {
-        loadTransactionsFromDatabase();
+        ViewHistory();
     }
    
-    public void loadTransactionsFromDatabase() {
+    public void ViewHistory() {
         String query = "SELECT transactions.transaction_id, items.Item_name, items.Item_category, items.Item_size, items.Item_price FROM transactions "
         		+ "INNER JOIN items ON transactions.Item_id = items.Item_id";
         try {
@@ -54,7 +54,7 @@ public class TransactionController {
         return transactions;
     }
 
-    public boolean addTransaction(String userId, String itemId) {
+    public boolean CreateTransaction(String userId, String itemId) {
         String transactionId = generateTransactionId();
         String query = "INSERT INTO transactions (User_id, Item_id, Transaction_id) "
         		+ "VALUES ('" + userId + "', '" + itemId + "', '" + transactionId + "')";

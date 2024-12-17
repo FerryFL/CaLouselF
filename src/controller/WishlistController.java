@@ -18,10 +18,10 @@ public class WishlistController {
     private ItemController controller;
     
     public WishlistController() {
-        loadWishlistFromDatabase();
+        ViewWishlist();
     }
 
-    public void loadWishlistFromDatabase() {
+    public void ViewWishlist() {
         String query = "SELECT wishlists.Wishlist_id, items.Item_name, wishlists.User_id "
         		+ "FROM wishlists "
         		+ "INNER JOIN items ON wishlists.Item_id = items.Item_id";
@@ -46,7 +46,7 @@ public class WishlistController {
         return wishlist;
     }
 
-    public boolean addWishlist(String itemId, String userId) {
+    public boolean AddWishlist(String itemId, String userId) {
         String wishlistId = generateWishlistId();
         String query = "INSERT INTO wishlists (Wishlist_id, Item_id, User_id) VALUES ('"
                 + wishlistId + "', '" + itemId + "', '" + userId + "')";
@@ -63,7 +63,7 @@ public class WishlistController {
     }
 
     
-    public boolean removeWishlist(String wishlistId) {
+    public boolean RemoveWishlist(String wishlistId) {
         String query = "DELETE FROM wishlists WHERE Wishlist_id = '" + wishlistId + "'";
         try {
             connect.execUpdate(query);

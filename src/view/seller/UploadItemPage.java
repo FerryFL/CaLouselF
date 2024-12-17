@@ -46,7 +46,7 @@ public class UploadItemPage {
             
             String msg = controller.CheckItemValidation(name, size, price, category);
             
-            boolean isSuccess = controller.addItemToDatabase(name, size, price, category);
+            boolean isSuccess = controller.UploadItem(name, size, price, category);
             if(isSuccess) {
             	showAlert("Item berhasil dimasukkan ke database");
             }else {

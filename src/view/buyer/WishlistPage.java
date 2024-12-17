@@ -91,7 +91,7 @@ public class WishlistPage {
                     alert.setContentText("Item: " + selectedWishlist.getWishlistId());
 
                     if (alert.showAndWait().get() == ButtonType.OK) {
-                        boolean isDeleted = wishlistController.removeWishlist(selectedWishlist.getWishlistId());
+                        boolean isDeleted = wishlistController.RemoveWishlist(selectedWishlist.getWishlistId());
 
                         if (isDeleted) {
                             getTableView().getItems().remove(selectedWishlist);

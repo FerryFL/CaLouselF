@@ -25,7 +25,7 @@ public class BuyerHomePage {
         this.controller = controller;
         this.wishlistController = new WishlistController();
         this.transactionController = new TransactionController();
-        controller.viewItems();  
+        controller.ViewItem();  
         this.tableView = createTableView(); 
     }
 
@@ -107,7 +107,7 @@ public class BuyerHomePage {
                 addWishlistBtn.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
                     String userId = "US001";
-                    boolean success = wishlistController.addWishlist(item.getItemId(), userId);
+                    boolean success = wishlistController.AddWishlist(item.getItemId(), userId);
 
                     if (success) {  
                         showAlert("Item berhasil dimasukkan ke Wishlist");
@@ -120,7 +120,7 @@ public class BuyerHomePage {
                     Item item = getTableView().getItems().get(getIndex());
                     String userId = "US001";
 
-                    boolean success = transactionController.addTransaction(userId, item.getItemId());
+                    boolean success = transactionController.CreateTransaction(userId, item.getItemId());
 
                     if (success) {
                         showAlert("Transaksi pembelian berhasil dilakukan");

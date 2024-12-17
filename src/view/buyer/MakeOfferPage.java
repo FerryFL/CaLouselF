@@ -15,14 +15,16 @@ import view_controller.ViewController;
 
 public class MakeOfferPage {
 
-    private final Stage stage; 
-    private final ItemController itemController; 
-    private final OfferController offerController; 
+    private Stage stage; 
+    private ItemController itemController; 
+    private OfferController offerController; 
+    private TableView<Item> tableView;
 
     public MakeOfferPage(Stage stage, ItemController itemController, OfferController offerController) {
         this.stage = stage;
         this.itemController = itemController;
         this.offerController = offerController;
+        this.tableView = createTableView(); 
     }
 
     public Scene createMakeOfferScene() {
@@ -74,9 +76,9 @@ public class MakeOfferPage {
 
     private TableView<Item> createTableView() {
         TableView<Item> tableView = new TableView<>();
-        ObservableList<Item> items = itemController.getItems();
-        tableView.setItems(items);
+        tableView.setItems(itemController.getItems());
 
+        
         TableColumn<Item, String> idCol = new TableColumn<>("Item ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("itemId"));
 

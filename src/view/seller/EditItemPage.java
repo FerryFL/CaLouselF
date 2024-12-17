@@ -36,12 +36,6 @@ public class EditItemPage {
         Label categoryLabel = new Label("Item Category:");
         TextField categoryTf = new TextField(item.getItemCategory());
 
-//        Label statusLabel = new Label("Item Status:");
-//        TextField statusTf = new TextField(item.getItemStatus());
-//
-//        Label wishlistLabel = new Label("Item Wishlist:");
-//        TextField wishlistTf = new TextField(item.getItemWishlist());
-
         Button updateBtn = new Button("Update Item");
         updateBtn.setOnAction(e -> {
             String name = nameTf.getText();
@@ -50,7 +44,7 @@ public class EditItemPage {
             String category = categoryTf.getText();
             String msg = controller.CheckItemValidation(name, size, price, category);
             
-            boolean isSuccess = controller.editItem(item.getItemId(), name, size, price, category);
+            boolean isSuccess = controller.EditItem(item.getItemId(), name, size, price, category);
             if(isSuccess) {
             	showAlert("Item updated successfully!");
                 ViewController.getInstance(owner, controller).navigateToSellerHomePage();

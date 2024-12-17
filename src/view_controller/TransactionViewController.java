@@ -27,7 +27,7 @@ public class TransactionViewController {
 	public void refreshTable() {
         if (controller != null) {
             controller.getTransactions().clear();  
-            controller.loadTransactionsFromDatabase();  
+            controller.ViewHistory();  
         }
     }
 

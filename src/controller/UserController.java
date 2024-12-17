@@ -8,7 +8,7 @@ import database.DatabaseConnect;
 public class UserController {
 	private DatabaseConnect connect = DatabaseConnect.getInstance();
 
-    public String validateLogin(String username, String password) {
+    public String Login(String username, String password) {
         if ("admin".equals(username) && "admin".equals(password)) {
             return "Admin";
         }
@@ -91,7 +91,7 @@ public class UserController {
 	    
 	}
     
-    public boolean registerUser(String username, String password, String phoneNumber, String address, String role) {
+    public boolean Register(String username, String password, String phoneNumber, String address, String role) {
         String msg = CheckAccountValidation(username, password, phoneNumber, address, role);
         if (msg!=null) {
             System.out.println(msg);

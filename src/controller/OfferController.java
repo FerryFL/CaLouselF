@@ -79,9 +79,9 @@ public class OfferController {
     
     public double getHighestOffer(String itemId) {
         String query = "SELECT MAX(Offer_price) AS highest_offer FROM Offers WHERE Item_id = ?";
-        try (PreparedStatement stmt = con.con.prepareStatement(query)) {
-            stmt.setString(1, itemId);
-            ResultSet rs = stmt.executeQuery();
+        try (PreparedStatement st = con.con.prepareStatement(query)) {
+            st.setString(1, itemId);
+            ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getDouble("highest_offer");
             }
@@ -93,10 +93,10 @@ public class OfferController {
     
     private void updateItemStatus(String itemId, String status) {
         String query = "UPDATE Items SET Item_offer_status = ? WHERE Item_id = ?";
-        try (PreparedStatement stmt = con.con.prepareStatement(query)) {
-            stmt.setString(1, status);
-            stmt.setString(2, itemId);
-            stmt.executeUpdate();
+        try (PreparedStatement st = con.con.prepareStatement(query)) {
+            st.setString(1, status);
+            st.setString(2, itemId);
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,12 +106,12 @@ public class OfferController {
         String offerId = generateOfferId();
         String query = "INSERT INTO Offers (Offer_id, User_id, Item_id, Offer_price, Offer_status) " +
                        "VALUES (?, ?, ?, ?, 'Pending')";
-        try (PreparedStatement stmt = con.con.prepareStatement(query)) {
-            stmt.setString(1, offerId);
-            stmt.setString(2, userId);
-            stmt.setString(3, itemId);
-            stmt.setDouble(4, offerPrice);
-            stmt.executeUpdate();
+        try (PreparedStatement st = con.con.prepareStatement(query)) {
+            st.setString(1, offerId);
+            st.setString(2, userId);
+            st.setString(3, itemId);
+            st.setDouble(4, offerPrice);
+            st.executeUpdate();
 
             updateItemStatus(itemId, "Pending");
         } catch (SQLException e) {
@@ -139,15 +139,15 @@ public class OfferController {
         String updateItemQuery = "UPDATE Items SET Item_offer_status = 'Accepted' WHERE Item_id = ?";
         TransactionController transactionController = new TransactionController();
 
-        try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(updateOfferQuery)) {
-            stmt.setString(1, offer.getOfferId());
-            stmt.executeUpdate();
+        try (PreparedStatement st = DatabaseConnect.getInstance().con.prepareStatement(updateOfferQuery)) {
+            st.setString(1, offer.getOfferId());
+            st.executeUpdate();
 
-            try (PreparedStatement stmtItem = DatabaseConnect.getInstance().con.prepareStatement(updateItemQuery)) {
-                stmtItem.setString(1, offer.getItemId());
-                stmtItem.executeUpdate();
+            try (PreparedStatement stItem = DatabaseConnect.getInstance().con.prepareStatement(updateItemQuery)) {
+                stItem.setString(1, offer.getItemId());
+                stItem.executeUpdate();
             }
-            transactionController.addTransaction(offer.getUserId(), offer.getItemId());
+            transactionController.CreateTransaction(offer.getUserId(), offer.getItemId());
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,14 +158,14 @@ public class OfferController {
 
     public void declineOffer(Offer offer, String reason) {
         String query = "UPDATE Offers SET Offer_status = 'Declined' WHERE Offer_id = ?";
-        try (PreparedStatement stmt = DatabaseConnect.getInstance().con.prepareStatement(query)) {
-            stmt.setString(1, offer.getOfferId());
-            stmt.executeUpdate();
+        try (PreparedStatement st = DatabaseConnect.getInstance().con.prepareStatement(query)) {
+            st.setString(1, offer.getOfferId());
+            st.executeUpdate();
             
             String updateItemQuery = "UPDATE Items SET Item_offer_status = 'Declined' WHERE Item_id = ?";
-            try (PreparedStatement stmtItem = DatabaseConnect.getInstance().con.prepareStatement(updateItemQuery)) {
-                stmtItem.setString(1, offer.getItemId());
-                stmtItem.executeUpdate();
+            try (PreparedStatement stItem = DatabaseConnect.getInstance().con.prepareStatement(updateItemQuery)) {
+                stItem.setString(1, offer.getItemId());
+                stItem.executeUpdate();
             }
             
             showAlert("Offer Declined", "The offer has been declined for the following reason: " + reason);

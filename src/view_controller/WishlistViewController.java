@@ -34,7 +34,7 @@ public class WishlistViewController {
     public void refreshTable() {
         if (wishlistController != null) {
             wishlistController.getWishlist().clear();
-            wishlistController.loadWishlistFromDatabase(); 
+            wishlistController.ViewWishlist(); 
         }
     }
 }

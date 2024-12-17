@@ -55,7 +55,7 @@ public class AdminHomePage {
 
     private TableView<Item> createTableView() {
         TableView<Item> tableView = new TableView<>();
-        tableView.setItems(itemController.getPendingItems()); 
+        tableView.setItems(itemController.ViewRequestedItem()); 
 
         TableColumn<Item, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
@@ -77,7 +77,7 @@ public class AdminHomePage {
                 approveButton.setOnAction(e -> {
                     Item item = getTableView().getItems().get(getIndex());
                     if (item != null) {
-                        itemController.approveItem(item);
+                        itemController.ApproveItem(item);
                         showAlert("Item Approved", "The item has been approved.");
                         tableView.getItems().remove(item);
                     }
@@ -119,7 +119,7 @@ public class AdminHomePage {
             if (reason.trim().isEmpty()) {
                 showAlert("Invalid", "Alasan tidak boleh kosong");
             } else {
-                itemController.declineItem(item, reason);
+                itemController.DeclineItem(item, reason);
                 showAlert("Valid", "Item terdecline dan dihapus dari list");
                 tableView.getItems().remove(item);
             }

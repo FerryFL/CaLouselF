@@ -39,7 +39,7 @@ public class LoginViewController {
         loginView.getLoginButton().setOnAction(e -> {
             String username = loginView.getUsernameField().getText();
             String password = loginView.getPasswordField().getText();
-            String role = userController.validateLogin(username, password); 
+            String role = userController.Login(username, password); 
             
             if(role!= null) {
             	if(username.equals("admin") && password.equals("admin")){
