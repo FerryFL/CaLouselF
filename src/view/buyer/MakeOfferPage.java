@@ -153,7 +153,7 @@ public class MakeOfferPage {
                 } else if (price <= currentHighestOffer) {
                     showAlert("Invalid", "Harga Offer harus lebih besar dari Harga Offer sekarang.");
                 } else {
-                    offerController.submitOffer(item.getItemId(), price, "US001"); 
+                    offerController.OfferPrice(item.getItemId(), price, "US001"); 
                     showAlert("Valid", "Offer berhasil dikirimkan");
                 }
             } catch (Exception e) {

@@ -15,10 +15,12 @@ public class ItemController {
     private ObservableList<Item> items = FXCollections.observableArrayList();
     private static DatabaseConnect con = DatabaseConnect.getInstance();
     
+    // Method ini berfungsi untuk mengembalikan Item dalam bentuk observableList
     public ObservableList<Item> getItems() {
         return items;
     }
     
+    // Method ini berfungsi untuk membuat ID untuk Item dengan Format IT ditambah 3 digit 
     private String generateItemId() {
 		
 		String lastItemId = null;
@@ -44,6 +46,7 @@ public class ItemController {
 	    
 	}
     
+    // Method ini befungsi untuk menambahkan Item ke database
     public boolean UploadItem(String name, String size, String price, String category) {
         String itemId = generateItemId();
         String defaultStatus = "Pending";
@@ -75,6 +78,7 @@ public class ItemController {
         
     }
     
+    // Method ini berfungsi untuk melakukan perubahan data Item pada database
     public boolean EditItem(String itemId, String name, String size, String price, String category) {
         String msg = CheckItemValidation(name, size, price, category);
         
@@ -92,6 +96,7 @@ public class ItemController {
 
     }
     
+    // Method ini berfungsi untuk menghapus Item yang ada pada database berdasarkan id
     public void DeleteItem(String id) {
     	String query = String.format("DELETE FROM Items WHERE Item_id = '%s'", id);
 		con.execUpdate(query);
@@ -128,6 +133,7 @@ public class ItemController {
         }
     }
 
+    // Method ini berfungsi untuk menampilkan semua Item yang statusnya sudah di approve oleh admin
     public void ViewItem() {
         String query = "SELECT * FROM Items WHERE Item_status LIKE 'Approved'"; 
         ArrayList<Item> itemsList = new ArrayList<>();
@@ -154,6 +160,7 @@ public class ItemController {
         }
     }
     
+    // Method ini berfungsi untuk melakukan validasi pada saat kita ingin menambahkan Item ke Database
     public String CheckItemValidation(String name, String size, String price, String category) {
 
         if (name.trim().isEmpty()) {
@@ -185,11 +192,11 @@ public class ItemController {
         if (category.trim().length() < 3) {
         	return "Category harus minimal 3 karakter!";
         }
-
-
-        return null;
+        
+        return "Success";
     }
     
+    // Method ini berfungsi untuk menampilkan Item yang ditambahkan namun statusnya masih Pending atau belum di accept admin
     public ObservableList<Item> ViewRequestedItem() {
         ObservableList<Item> pendingItems = FXCollections.observableArrayList();
         String query = "SELECT * FROM Items WHERE Item_status = 'Pending'";
@@ -214,6 +221,7 @@ public class ItemController {
         return pendingItems;
     }
 
+    // Method ini berfungsi untuk merubah status Item menjadi approved yang dilakukan oleh admin
     public void ApproveItem(Item item) {
         String query = "UPDATE Items SET Item_status = 'Approved' WHERE Item_id = ?";
         try (PreparedStatement st = con.con.prepareStatement(query)) {
@@ -223,7 +231,8 @@ public class ItemController {
             e.printStackTrace();
         }
     }
-
+    
+    // Method ini berfungsi untuk merubah status Item menjadi declined yang dilakukan oleh admin
     public void DeclineItem(Item item, String reason) {
         System.out.println("Item declined: " + item.getItemId() + ", Reason: " + reason);
         String query = "DELETE FROM Items WHERE Item_id = ?";
@@ -235,6 +244,7 @@ public class ItemController {
         }
     }
     
+    // Nethod ini berfungsi untuk menampilkan menampilkan Item dengan offer status yang sudah di accept oleh Seller
     public void ViewAcceptedItem(Item item) {
     	String query = "SELECT * FROM Items WHERE Item_offer_status LIKE 'Accepted'"; 
         ArrayList<Item> itemsList = new ArrayList<>();
@@ -260,7 +270,8 @@ public class ItemController {
             e.printStackTrace();
         }
     }
-
+    
+    // Method ini berfungsi untuk merubah value dari wishlist setiap ada wishlist baru masuk ke item tertentu
     public void addItemToWishlist(Item item) {
         String query = "UPDATE Items SET Item_wishlist = '1' WHERE Item_id = ?";
         try (PreparedStatement st = DatabaseConnect.getInstance().con.prepareStatement(query)) {

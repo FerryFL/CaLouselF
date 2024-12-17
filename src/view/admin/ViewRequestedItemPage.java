@@ -21,7 +21,8 @@ public class ViewRequestedItemPage {
         this.itemController = itemController;
         this.tableView = createTableView();
     }
-
+    
+    // Method ini digunakan untuk membuat scene 
     public Scene createViewRequestedItemScene() {
         BorderPane root = new BorderPane();
         root.setCenter(tableView);
@@ -30,7 +31,8 @@ public class ViewRequestedItemPage {
 
         return new Scene(root, 1000, 600);
     }
-
+    
+    // Method ini digunakan untuk membuat navbar
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Menu");
@@ -57,6 +59,7 @@ public class ViewRequestedItemPage {
         return menuBar;
     }
 
+    // Method ini digunakan untuk menampilkan data requested item dalam bentuk table
     private TableView<Item> createTableView() {
         TableView<Item> tableView = new TableView<>();
         tableView.setItems(itemController.ViewRequestedItem()); 
@@ -112,7 +115,8 @@ public class ViewRequestedItemPage {
         tableView.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, actionsCol);
         return tableView;
     }
-
+    
+    // Method ini digunakan untuk membuka pop up reason untuk decline
     private void openDeclineReasonDialog(Item item) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Decline Item");
@@ -129,7 +133,8 @@ public class ViewRequestedItemPage {
             }
         });
     }
-
+    
+    // Method ini digunakan untuk menampilkan pop up untuk success message atau error message
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

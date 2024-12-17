@@ -29,6 +29,7 @@ public class BuyerHomePage {
         this.tableView = createTableView(); 
     }
 
+    // Method ini digunakan untuk membuat scene
     public Scene createHomePageScene() {
         BorderPane root = new BorderPane();
         HBox searchBox = createSearchBox();
@@ -40,7 +41,8 @@ public class BuyerHomePage {
 
         return new Scene(root, 1000, 600);
     }
-
+    
+    // Method ini digunakan untuk membuat navbar
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
 
@@ -79,6 +81,7 @@ public class BuyerHomePage {
         return menuBar;
     }
     
+    // Method ini digunakan untuk menampilkan search bar
     private HBox createSearchBox() {
         HBox searchBox = new HBox(10);
         searchBox.setStyle("-fx-padding: 10;");
@@ -100,12 +103,14 @@ public class BuyerHomePage {
         return searchBox;
     }
 
+    // Method ini digunakan untuk menampilkan pop up untuk success message atau error message
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
     }
-
+    
+    // Method ini digunakan untuk menampilkan data Item pada buyer home dalam bentuk table
     @SuppressWarnings("unchecked")
     private TableView<Item> createTableView() {
         TableView<Item> tableView = new TableView<>();

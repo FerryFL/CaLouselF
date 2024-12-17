@@ -7,7 +7,8 @@ import database.DatabaseConnect;
 
 public class UserController {
 	private DatabaseConnect connect = DatabaseConnect.getInstance();
-
+	
+	// Method ini digunakan untuk autentikasi login user
     public String Login(String username, String password) {
         if ("admin".equals(username) && "admin".equals(password)) {
             return "Admin";
@@ -24,7 +25,8 @@ public class UserController {
 
         return null;
     }
-
+    
+    // Method ini digunakan mengecek validasi akuns saat melakukan registrasi
     public String CheckAccountValidation(String Username, String Password, String Phone_Number, String Address, String Role) {
         if (!isunique(Username)) {
             return "Username harus unik!";
@@ -53,6 +55,7 @@ public class UserController {
         return null;
     }
 
+    // Method ini digunakan untuk mengecek apakah username yang dibuat telah unik
     private boolean isunique(String username) {
         String query = "SELECT COUNT(*) FROM users WHERE username = '"+username+"'";
         try {
@@ -63,6 +66,7 @@ public class UserController {
         }
     }
     
+    // Method ini digunakan untuk membuat ID untuk User dengan Format US ditambah 3 digit 
     public String generateUserId() {
 		
 		String lastUserId = null;
@@ -88,6 +92,7 @@ public class UserController {
 	    
 	}
     
+    // Method ini digunakan untuk melakukan registrasi akund dan menambahkannya ke database
     public boolean Register(String username, String password, String phoneNumber, String address, String role) {
         String msg = CheckAccountValidation(username, password, phoneNumber, address, role);
         if (msg!=null) {

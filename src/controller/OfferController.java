@@ -13,7 +13,8 @@ import model.Offer;
 public class OfferController {
 
     private static DatabaseConnect con = DatabaseConnect.getInstance();
-
+    
+    // Method ini berfungsi untuk mengembalikan Offer dalam bentuk observableList
     public ObservableList<Offer> getOffers() {
         String query = "SELECT o.Offer_id, o.User_id, o.Item_id, o.Offer_price, o.Offer_status, i.Item_name, i.Item_category, i.Item_size, i.Item_price "
                      + "FROM Offers o "
@@ -51,6 +52,7 @@ public class OfferController {
         return offerList;
     }
     
+    // Merhod ini digunakan untuk membuat ID untuk Offer dengan Format OF ditambah 3 digit 
     private static String generateOfferId() {
 		
 		String lastItemId = null;
@@ -77,6 +79,7 @@ public class OfferController {
 	    
 	}
     
+    // Method ini digunakan untuk mendapatkan highest Offer yang ada pada suatu Item
     public double getHighestOffer(String itemId) {
         String query = "SELECT MAX(Offer_price) AS highest_offer FROM Offers WHERE Item_id = ?";
         try (PreparedStatement st = con.con.prepareStatement(query)) {
@@ -91,6 +94,7 @@ public class OfferController {
         return 0; 
     }
     
+    // Method ini digunakan untuk melakukan update status apabila offer sudah dilakukan
     private void updateItemStatus(String itemId, String status) {
         String query = "UPDATE Items SET Item_offer_status = ? WHERE Item_id = ?";
         try (PreparedStatement st = con.con.prepareStatement(query)) {
@@ -102,7 +106,8 @@ public class OfferController {
         }
     }
     
-    public void submitOffer(String itemId, double offerPrice, String userId) {
+    // Method ini digunakan untuk membuat Offer dan memasukkannya ke database
+    public void OfferPrice(String itemId, double offerPrice, String userId) {
         String offerId = generateOfferId();
         String query = "INSERT INTO Offers (Offer_id, User_id, Item_id, Offer_price, Offer_status) " +
                        "VALUES (?, ?, ?, ?, 'Pending')";
@@ -118,22 +123,8 @@ public class OfferController {
             e.printStackTrace();
         }
     }
-    
-    public void offerPrice(String itemId, String itemPrice, String userId) {
-    	
-    	
-    	String offerId = generateOfferId();
-    	String query = "INSERT INTO Offers(Offer_id, User_id, Item_id, Offer_price, Offer_status) " + "VALUES ('"
-				+ offerId + "', '" + userId + "', '" + itemId +  "', '" + itemPrice + "', 'Pending')";
 
-		con.execUpdate(query);
-		
-		String queryIt = String.format("UPDATE Item SET Item_offer_status = 'Pending' WHERE Item_id = '%s'", itemId);
-		
-		con.execUpdate(queryIt);
-		
-	}
-
+    // Method ini berfungsi untuk menerima Offer dan merubah statusnya menjadi accepted
     public void acceptOffer(Offer offer) {
         String updateOfferQuery = "UPDATE Offers SET Offer_status = 'Accepted' WHERE Offer_id = ?";
         String updateItemQuery = "UPDATE Items SET Item_offer_status = 'Accepted' WHERE Item_id = ?";
@@ -155,7 +146,7 @@ public class OfferController {
         }
     }
 
-
+    // Method ini berfungsi untuk menolak Offer dan merubah statusnya menjadi declined
     public void declineOffer(Offer offer, String reason) {
         String query = "UPDATE Offers SET Offer_status = 'Declined' WHERE Offer_id = ?";
         try (PreparedStatement st = DatabaseConnect.getInstance().con.prepareStatement(query)) {
@@ -174,7 +165,7 @@ public class OfferController {
         }
     }
 
-
+    // Method ini digunakan unutk menampilkan alert untuk success message atau error message
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -182,10 +173,4 @@ public class OfferController {
         alert.show();
     }
 
-
-	public void checkConnection() {
-		System.out.println("Checking connection: " + con.con);
-
-		
-	}
 }

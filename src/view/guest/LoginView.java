@@ -11,6 +11,7 @@ public class LoginView {
     private Button loginBtn;
     private Button registerBtn;
 
+    // Method ini digunakan untuk membuat tampilan login
     public LoginView() {
         usernameLbl = new Label("Username");
         passwordLbl = new Label("Password");
@@ -25,7 +26,8 @@ public class LoginView {
         loginBtn = new Button("Login");
         registerBtn = new Button("No Account? Register");
     }
-
+    
+    // Method ini digunakan untuk membuat login form
     public VBox getLoginForm() {
         VBox vbox = new VBox(10);
         vbox.getChildren().addAll(usernameLbl, usernameField, passwordLbl, passwordField, loginBtn,registerBtn);

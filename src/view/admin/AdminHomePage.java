@@ -22,7 +22,8 @@ public class AdminHomePage {
         itemController.ViewItem();
         this.tableView = createTableView();
     }
-
+    
+    // Method ini digunakan untuk membua scene pada admin home page
     public Scene createAdminHomeScene() {
         BorderPane root = new BorderPane();
         HBox searchBox = createSearchBox();
@@ -36,6 +37,7 @@ public class AdminHomePage {
         return new Scene(root, 1000, 600);
     }
 
+    // method ini digunakan untuk membuat navbar
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Menu");
@@ -62,6 +64,7 @@ public class AdminHomePage {
         return menuBar;
     }
     
+    // method ini digunakan untuk membuat search bar
     private HBox createSearchBox() {
         HBox searchBox = new HBox(10);
         searchBox.setStyle("-fx-padding: 10;");
@@ -83,7 +86,7 @@ public class AdminHomePage {
         return searchBox;
     }
 
-
+    // method ini digunakan untuk menampilkan tableview yang berisi item dari function getItems
     private TableView<Item> createTableView() {
     	TableView<Item> tableView = new TableView<>();
         tableView.setItems(itemController.getItems());

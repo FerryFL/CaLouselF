@@ -30,6 +30,7 @@ public class WishlistPage {
         return root;
     }
     
+    // Method ini digunakan untuk membuat navbar
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
 
@@ -50,7 +51,6 @@ public class WishlistPage {
             ViewController.getInstance(stage).navigateToWishlistPage()
         );
        
-
         MenuItem viewHistoryMenuItem = new MenuItem("View Transaction History");
         viewHistoryMenuItem.setOnAction(e -> 
             ViewController.getInstance(stage).navigateToTransactionHistoryPage()
@@ -67,7 +67,9 @@ public class WishlistPage {
 
         return menuBar;
     }
-
+    
+    
+    // Method ini digunakan untuk menampilkan daftar wishlist dalam bentuk table
     private TableView<Wishlist> createTableView() {
         TableView<Wishlist> tableView = new TableView<>();
         tableView.setItems(wishlistController.getWishlist());
@@ -122,9 +124,5 @@ public class WishlistPage {
         tableView.getColumns().addAll(itemNameCol, actionCol);
 
         return tableView;
-    }
-
-    public void refreshTable() {
-        wishlistTable.setItems(wishlistController.getWishlist());
     }
 }

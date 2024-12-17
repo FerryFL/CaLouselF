@@ -19,6 +19,7 @@ public class TransactionController {
         ViewHistory();
     }
    
+    // Method ini digunakan untuk menampilkan transaksi yang sudah pernah dilakukan
     public void ViewHistory() {
         String query = "SELECT transactions.transaction_id, items.Item_name, items.Item_category, items.Item_size, items.Item_price " +
                        "FROM transactions INNER JOIN items ON transactions.Item_id = items.Item_id";
@@ -48,6 +49,7 @@ public class TransactionController {
         return transactions;
     }
 
+	// Method ini digunakan untuk membuat transaction dan memasukkannya ke database
     public boolean CreateTransaction(String userId, String itemId) {
         String transactionId = generateTransactionId();
         String query = "INSERT INTO transactions (User_id, Item_id, Transaction_id) "
@@ -64,7 +66,7 @@ public class TransactionController {
     }
 
 
-
+    // Method ini digunakan untuk membuat ID untuk Transaction dengan Format TR ditambah 3 digit 
     private String generateTransactionId() {
         String lastTransactionId = null;
         String newTransactionId = "TR001";
@@ -86,20 +88,6 @@ public class TransactionController {
         }
 
         return newTransactionId;
-    }
-
- // Remove a transaction by ID
-    public boolean removeTransaction(String transactionId) {
-        String query = String.format("DELETE FROM transactions WHERE Transaction_id = '%s'", transactionId);
-
-        try {
-            connect.execUpdate(query);
-            transactions.removeIf(transaction -> transaction.getTransactionId().equals(transactionId)); // Update ObservableList
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
 }

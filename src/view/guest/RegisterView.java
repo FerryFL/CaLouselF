@@ -13,7 +13,9 @@ public class RegisterView {
     private RadioButton sellerRole, buyerRole;
     private Button registerButton, loginButton;
     private ToggleGroup roleGroup;
-
+    
+    
+    // Method ini digunakan untuk membuat tampilan register
     public RegisterView() {
 
         usernameLbl = new Label("Username:");

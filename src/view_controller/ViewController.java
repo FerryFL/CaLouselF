@@ -117,11 +117,6 @@ public class ViewController {
         setScene(new Scene(wishlistPage.getView(), 1000, 600), "Wishlist Page");
     }
 
-    public void navigateToAddWishlistPage() {
-        AddWishlistPage addWishlistPage = new AddWishlistPage(stage, wishlistController);
-        setScene(new Scene(addWishlistPage.getView(), 400, 300), "Add to Wishlist");
-    }
-
     public void refreshWishlistTable() {
         wishlistController.getWishlist().clear();
         wishlistController.ViewWishlist();
@@ -131,7 +126,7 @@ public class ViewController {
         TransactionHistoryPage transactionPage = new TransactionHistoryPage(stage, transactionController);
         setScene(new Scene(transactionPage.getView(), 1000, 600), "Transaction History");
     }
-
+    
     public void refreshTransactionTable() {
         transactionController.getTransactions().clear();
         transactionController.ViewHistory();

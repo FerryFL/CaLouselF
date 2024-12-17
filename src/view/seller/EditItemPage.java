@@ -21,7 +21,9 @@ public class EditItemPage {
         this.root = createUpdateItemPage();
         root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
     }
-
+    
+    
+    // Method ini digunakan untuk membuat tampilan page UpdateItem
     private VBox createUpdateItemPage() {
 
         Label nameLabel = new Label("Item Name:");
@@ -66,7 +68,8 @@ public class EditItemPage {
     public VBox getRoot() {
         return root;
     }
-
+    
+    // Method ini digunakan untuk menampilkan pop up untuk success message atau error message
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);

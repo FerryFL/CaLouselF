@@ -21,7 +21,8 @@ public class ViewOfferPage {
         this.offerController = offerController;
         this.tableView = createTableView();
     }
-
+    
+    // Method ini digunakan untuk membuat scene pada View Offer Page
     public Scene createViewOfferScene() {
         BorderPane root = new BorderPane();
         root.setCenter(tableView);
@@ -30,7 +31,9 @@ public class ViewOfferPage {
         
         return new Scene(root, 1000, 600);
     }
-
+    
+    
+    // Method ini digunakan untuk membuat navbar
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Menu");
@@ -56,7 +59,8 @@ public class ViewOfferPage {
 
         return menuBar;
     }
-
+    
+    // Method ini digunakan untuk menampilkan daftar Offers dalam bentuk table
     @SuppressWarnings("unchecked")
 	private TableView<Offer> createTableView() {
         TableView<Offer> tableView = new TableView<>();

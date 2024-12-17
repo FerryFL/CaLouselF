@@ -19,7 +19,8 @@ public class WishlistController {
     public WishlistController() {
         ViewWishlist();
     }
-
+    
+    // Method ini digunakan untuk menampilkan wishlist
     public void ViewWishlist() {
         String query = "SELECT wishlists.Wishlist_id, items.Item_name, wishlists.User_id "
         		+ "FROM wishlists "
@@ -44,22 +45,23 @@ public class WishlistController {
         return wishlist;
     }
 
+    // Method ini digunakan untuk menambahkan item ke wishlist dan dimasukkan ke database
     public boolean AddWishlist(String itemId, String userId) {
         String wishlistId = generateWishlistId();
         String query = "INSERT INTO wishlists (Wishlist_id, Item_id, User_id) VALUES ('"
                 + wishlistId + "', '" + itemId + "', '" + userId + "')";
         try {
             connect.execUpdate(query);
-            wishlist.add(new Wishlist(wishlistId, itemId, userId)); // Update the ObservableList
-            ViewController.getInstance(stage).refreshWishlistTable();  // Memanggil metode refreshTable
+            wishlist.add(new Wishlist(wishlistId, itemId, userId)); 
+            ViewController.getInstance(stage).refreshWishlistTable();  
             return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;  
     }
-
     
+    // Method ini digunakan untuk menghapus item dari wishlist
     public boolean RemoveWishlist(String wishlistId) {
         String query = "DELETE FROM wishlists WHERE Wishlist_id = '" + wishlistId + "'";
         try {
@@ -72,7 +74,8 @@ public class WishlistController {
         }
         return false;
     }
-
+    
+    // Method ini digunakan untuk membuat ID untuk Wishlist dengan Format WL ditambah 3 digit 
     private String generateWishlistId() {
         String lastWishlistId = null;
         String newWishlistId = "WL001";
@@ -84,20 +87,14 @@ public class WishlistController {
             }
 
             if (lastWishlistId != null) {
-                // Extract the numeric part, starting after the "WL" prefix
                 String numericPart = lastWishlistId.substring(2);
-
-                // Use Long to handle large numbers
                 long newIdNumber = Long.parseLong(numericPart) + 1;
-
-                // Format back to "WL" + padded number
                 newWishlistId = "WL" + String.format("%03d", newIdNumber);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            // Log or handle the case where the numeric part is invalid
         }
 
         return newWishlistId;

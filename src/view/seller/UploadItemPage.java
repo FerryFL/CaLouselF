@@ -18,7 +18,8 @@ public class UploadItemPage {
         this.root = createUploadItemPage();
         root.setStyle("-fx-padding: 20; -fx-background-color: #FFCCE1;");	
     }
-
+    
+    // Method ini digunakan untuk membuat tampilan page UploadItem
     private VBox createUploadItemPage() {
 
     	Label nameLabel = new Label("Item Name:");
@@ -67,16 +68,11 @@ public class UploadItemPage {
     public VBox getRoot() {
         return root;
     }
-
+    
+    // Method ini digunakan untuk menampilkan pop up untuk success message atau error message
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
-    }
-
-    private void clearInputs(TextField... fields) {
-        for (TextField field : fields) {
-            field.clear();
-        }
     }
 }

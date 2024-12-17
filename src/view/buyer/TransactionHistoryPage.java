@@ -27,7 +27,8 @@ public class TransactionHistoryPage {
 
         return root;
     }
-
+    
+    // Method ini digunakan untuk membuat navbar
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
 
@@ -64,7 +65,8 @@ public class TransactionHistoryPage {
 
         return menuBar;
     }
-
+    
+    // Method ini digunakan untuk menampilkan data transaksi dalam bentuk table
     private TableView<TransactionHistory> createTableView() {
         TableView<TransactionHistory> tableView = new TableView<>();
         tableView.setItems(transactionController.getTransactionHistory());

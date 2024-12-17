@@ -8,8 +8,6 @@ import view_controller.*;
 
 public class Main extends Application {
     
-//    private final ItemController controller = new ItemController();
-    
     public static void main(String[] args) {
         launch(args);
     }
@@ -19,9 +17,6 @@ public class Main extends Application {
     	ViewController loginVC = new ViewController(primaryStage);
         loginVC.getInstance(primaryStage).navigateToLogin();
     	
-//    	ViewController viewController = ViewController.getInstance(primaryStage, controller);
-//    	viewController.navigateToSellerHomePage(); 
-        
         primaryStage.setTitle("CalouselF");
         primaryStage.show();
     }
